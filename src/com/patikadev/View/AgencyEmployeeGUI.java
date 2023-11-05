@@ -4,11 +4,15 @@ import com.patikadev.Helper.Config;
 import com.patikadev.Helper.Helper;
 import com.patikadev.Model.AgencyEmployee;
 import com.patikadev.Model.Hotel;
+import com.patikadev.Model.Room;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.ParseException;
+import java.util.ArrayList;
 
 public class AgencyEmployeeGUI extends JFrame {
     private JPanel wrapper;
@@ -19,7 +23,7 @@ public class AgencyEmployeeGUI extends JFrame {
     private JScrollPane scrl_hotel_list;
     private JTable tbl_hotel_list;
     private JScrollPane scrl_room_list;
-    private JTable tbl_room_list;
+    private JTable tbl_search_list;
     private JTextField fld_hotel_name;
     private JTextField fld_hotel_city;
     private JTextField fld_hotel_region;
@@ -29,10 +33,20 @@ public class AgencyEmployeeGUI extends JFrame {
     private JTextField fld_hotel_features;
     private JButton btn_add_hotel;
     private JComboBox cmb_stars;
+    private JTextField fld_region_city_hotel;
+    private JButton btn_search;
+    private JComboBox cmb_person;
+    private JComboBox cmb_child;
+    private JPanel pnl_search;
+    private JFormattedTextField fld_check_in;
+    private JFormattedTextField fld_check_out;
+    private JFormattedTextField formattedTextField1;
     private DefaultTableModel mdl_hotel_list;
     private Object[] row_hotel_list;
     private Object[] col_hotel_list;
     private JPopupMenu hotelMenu;
+    private DefaultTableModel mdl_search_list;
+    private Object[] row_search_list;
 
 
     private final AgencyEmployee agencyEmployee;
@@ -94,6 +108,7 @@ public class AgencyEmployeeGUI extends JFrame {
         });
         //## Update - Delete.
 
+        // Hotel Table:
         mdl_hotel_list = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -135,6 +150,42 @@ public class AgencyEmployeeGUI extends JFrame {
             }
         });
 
+        // Search Table
+        mdl_search_list = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if (column >= 0){
+                    return false;
+                }
+                return super.isCellEditable(row, column);
+            }
+        };
+
+        Object[] col_search_list = {"Hotel Name", "City", "Region", "Room Type", "Room Features", "Bed", "Price"};
+        mdl_search_list.setColumnIdentifiers(col_search_list);
+
+        for (Room room : Room.getList()){
+            Object[] row = new Object[col_hotel_list.length];
+            row[0] = room.getHotel().getName();
+            row[1] = room.getHotel().getCity();
+            row[2] = room.getHotel().getRegion();
+            row[3] = room.getRoomType();
+            row[4] = room.getHotel().getHotel_features();
+            row[5] = room.getBed();
+            row[6] = "100";
+            mdl_search_list.addRow(row);
+        }
+        tbl_search_list.setModel(mdl_search_list);
+
+        // Search room
+        btn_search.addActionListener(e -> {
+            if (Helper.isFieldEmpty(fld_region_city_hotel)){
+                Helper.showMessage("fill");
+            } else {
+                Hotel.findBySearch(fld_region_city_hotel.getText());
+            }
+        });
+
         btn_logout.addActionListener(e -> {
             dispose();
             LoginGUI login = new LoginGUI();
@@ -170,6 +221,9 @@ public class AgencyEmployeeGUI extends JFrame {
 
             }
         });
+
+
+
     }
 
     public static void main(String[] args) {
@@ -205,4 +259,10 @@ public class AgencyEmployeeGUI extends JFrame {
         }
     }
 
+    private void createUIComponents() throws ParseException {
+        this.fld_check_in = new JFormattedTextField(new MaskFormatter("##/##/####"));
+        this.fld_check_in.setText("10/02/2024");
+        this.fld_check_out = new JFormattedTextField(new MaskFormatter("##/##/####"));
+        this.fld_check_out.setText("12/02/2024");
+    }
 }

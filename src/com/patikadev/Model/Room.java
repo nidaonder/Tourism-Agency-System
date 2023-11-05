@@ -14,6 +14,7 @@ public class Room {
     private String roomType;
     private int bed;
     private int remainingRooms;
+    private Hotel hotel;
 
     public Room(){}
 
@@ -23,6 +24,15 @@ public class Room {
         this.roomType = roomType;
         this.bed = bed;
         this.remainingRooms = remainingRooms;
+        this.hotel = Hotel.getFetch(hotelId);
+    }
+
+    public Hotel getHotel() {
+        return Hotel.getFetch(this.hotelId);
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
 
     public int getId() {
@@ -111,4 +121,38 @@ public class Room {
             throw new RuntimeException(e);
         }
     }
+
+    public static boolean updateRoom(int id, String roomType, int bed, int remainingRooms){
+        String query = "UPDATE room SET room_type = ?, bed = ?, remaining_rooms = ? WHERE id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setString(1, roomType);
+            pr.setInt(2, bed);
+            pr.setInt(3, remainingRooms);
+            pr.setInt(4, id);
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Room getFetch(int id){
+        Room obj = null;
+        String query = "SELECT * FROM room WHERE id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, id);
+            ResultSet rs = pr.executeQuery();
+            if (rs.next()){
+                obj = new Room(rs.getInt("id"), rs.getInt("hotel_id"),
+                        rs.getString("room_type"), rs.getInt("bed"), rs.getInt("remaining_rooms"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return obj;
+    }
+
+
+
 }

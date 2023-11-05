@@ -8,8 +8,7 @@ import com.patikadev.Model.Room;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class DetailsHotelGUI extends JFrame{
     private JPanel wrapper;
@@ -78,6 +77,17 @@ public class DetailsHotelGUI extends JFrame{
         roomMenu = new JPopupMenu();
         JMenuItem updateRoomMenu = new JMenuItem("Update");
         roomMenu.add(updateRoomMenu);
+
+        updateRoomMenu.addActionListener(e -> {
+            int select_id = Integer.parseInt(tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(), 0).toString());
+            UpdateRoomGUI updateRoom = new UpdateRoomGUI(Room.getFetch(select_id));
+            updateRoom.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    loadRoomModel();
+                }
+            });
+        });
 
 
         mdl_room_list = new DefaultTableModel();

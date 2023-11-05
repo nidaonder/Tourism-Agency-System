@@ -172,8 +172,14 @@ public class Hotel {
     }
 
     public static boolean deleteHotel(int id){
-        String query = "DELETE FROM hotel WHERE id = ?";
+        ArrayList<Room> roomArrayList = Room.getList();
+        for (Room obj : roomArrayList){
+            if (obj.getHotelId() == id){
+                Room.deleteRoom(obj.getId());
+            }
+        }
         try {
+            String query = "DELETE FROM hotel WHERE id = ?";
             PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
             pr.setInt(1, id);
             return pr.executeUpdate() != -1;
@@ -199,5 +205,45 @@ public class Hotel {
             throw new RuntimeException(e);
         }
         return obj;
+    }
+
+    public static ArrayList<Room> findBySearch(String search){
+        ArrayList<Hotel> searchHotelList = new ArrayList<>();
+        ArrayList<Room> searchedRoomList = new ArrayList<>();
+        Hotel obj;
+        String query = "SELECT * FROM hotel WHERE region = ? OR city = ? OR name = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setString(1, search);
+            pr.setString(2, search);
+            pr.setString(3, search);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                obj = new Hotel();
+                obj.setId(rs.getInt("id"));
+                obj.setName(rs.getString("name"));
+                obj.setCity(rs.getString("city"));
+                obj.setRegion(rs.getString("region"));
+                obj.setAddress(rs.getString("address"));
+                obj.setEmail(rs.getString("email"));
+                obj.setPhone_number(rs.getString("phone_number"));
+                obj.setStars(rs.getString("stars"));
+                obj.setHotel_features(rs.getString("hotel_features"));
+                searchHotelList.add(obj);
+            }
+
+
+            for (Hotel hotel : searchHotelList){
+                for (Room room : Room.getList()){
+                    if (room.getHotelId() == hotel.getId()){
+                        searchedRoomList.add(room);
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return searchedRoomList;
     }
 }
