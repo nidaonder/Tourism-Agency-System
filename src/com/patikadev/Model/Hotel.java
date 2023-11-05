@@ -207,7 +207,7 @@ public class Hotel {
         return obj;
     }
 
-    public static ArrayList<Room> findBySearch(String search){
+    public static ArrayList<Room> findBySearch(String search, int person, int child){
         ArrayList<Hotel> searchHotelList = new ArrayList<>();
         ArrayList<Room> searchedRoomList = new ArrayList<>();
         Hotel obj;
@@ -235,7 +235,7 @@ public class Hotel {
 
             for (Hotel hotel : searchHotelList){
                 for (Room room : Room.getList()){
-                    if (room.getHotelId() == hotel.getId()){
+                    if (room.getHotelId() == hotel.getId() && room.getBed() >= (person + child)){
                         searchedRoomList.add(room);
                     }
                 }

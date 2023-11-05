@@ -182,7 +182,21 @@ public class AgencyEmployeeGUI extends JFrame {
             if (Helper.isFieldEmpty(fld_region_city_hotel)){
                 Helper.showMessage("fill");
             } else {
-                Hotel.findBySearch(fld_region_city_hotel.getText());
+                mdl_search_list.setRowCount(0);
+                for (Room room : Hotel.findBySearch(fld_region_city_hotel.getText(),
+                        Integer.parseInt(cmb_person.getSelectedItem().toString()),
+                        Integer.parseInt(cmb_child.getSelectedItem().toString()))){
+                    Object[] row = new Object[col_hotel_list.length];
+                    row[0] = room.getHotel().getName();
+                    row[1] = room.getHotel().getCity();
+                    row[2] = room.getHotel().getRegion();
+                    row[3] = room.getRoomType();
+                    row[4] = room.getHotel().getHotel_features();
+                    row[5] = room.getBed();
+                    row[6] = "100";
+                    mdl_search_list.addRow(row);
+                    tbl_search_list.setModel(mdl_search_list);
+                }
             }
         });
 
