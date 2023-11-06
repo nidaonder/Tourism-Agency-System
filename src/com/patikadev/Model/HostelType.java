@@ -1,5 +1,12 @@
 package com.patikadev.Model;
 
+import com.patikadev.Helper.DBConnector;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 public class HostelType {
     private int id;
     private int hotel_id;
@@ -44,6 +51,26 @@ public class HostelType {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public static ArrayList<HostelType> getHostelType(int hotel_id){
+        ArrayList<HostelType> hostelTypeList = new ArrayList<>();
+        HostelType obj;
+        String query = "SELECT * FROM hostel_type";
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()){
+                obj = new HostelType();
+                obj.setId(rs.getInt("id"));
+                obj.setHotel_id(rs.getInt("hotel_id"));
+                obj.setType(rs.getString("type"));
+                hostelTypeList.add(obj);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return hostelTypeList;
     }
 
 }

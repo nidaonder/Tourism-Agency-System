@@ -61,22 +61,4 @@ public class Season {
         this.hotel = hotel;
     }
 
-
-    /*
-
-    public static void createDateModel(){
-        SpinnerDateModel checkInModel = new SpinnerDateModel();
-        SpinnerDateModel checkOutModel = new SpinnerDateModel();
-
-        JSpinner spn_check_in = new JSpinner(checkInModel);
-        JSpinner spn_check_out = new JSpinner(checkOutModel);
-
-        JSpinner.DateEditor editorIn = new JSpinner.DateEditor(spn_check_in, "dd/MM/yyyy");
-        JSpinner.DateEditor editorOut = new JSpinner.DateEditor(spn_check_out, "dd/MM/yyyy");
-
-        spn_check_in.setEditor(editorIn);
-        spn_check_out.setEditor(editorOut);
-    }
-     */
-
 }

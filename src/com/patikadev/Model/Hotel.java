@@ -22,7 +22,8 @@ public class Hotel {
 
     public Hotel(){}
 
-    public Hotel(int id, String name, String city, String region, String address, String email, String phone_number, String stars, String hotel_features){
+    public Hotel(int id, String name, String city, String region, String address, String email, String phone_number,
+                 String stars, String hotel_features){
         this.id = id;
         this.name = name;
         this.city = city;
@@ -230,13 +231,14 @@ public class Hotel {
                 obj.setPhone_number(rs.getString("phone_number"));
                 obj.setStars(rs.getString("stars"));
                 obj.setHotel_features(rs.getString("hotel_features"));
+                obj.setName(obj.getName().toLowerCase());
                 searchHotelList.add(obj);
             }
-
 
             for (Hotel hotel : searchHotelList){
                 for (Room room : Room.getList()){
                     if (room.getHotelId() == hotel.getId() && room.getBed() >= (person + child)){
+
                         searchedRoomList.add(room);
                     }
                 }

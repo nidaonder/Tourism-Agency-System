@@ -3,6 +3,7 @@ package com.patikadev.View;
 import com.patikadev.Helper.Config;
 import com.patikadev.Helper.Helper;
 import com.patikadev.Model.AgencyEmployee;
+import com.patikadev.Model.HostelType;
 import com.patikadev.Model.Hotel;
 import com.patikadev.Model.Room;
 
@@ -55,7 +56,7 @@ public class AgencyEmployeeGUI extends JFrame {
 
         this.agencyEmployee = agencyEmployee;
         add(wrapper);
-        setSize(1000,500);
+        setSize(1000,700);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
@@ -161,19 +162,24 @@ public class AgencyEmployeeGUI extends JFrame {
             }
         };
 
-        Object[] col_search_list = {"Hotel Name", "City", "Region", "Room Type", "Room Features", "Bed", "Price"};
+        Object[] col_search_list = {"Hotel Name", "City", "Region", "Room Type", "Hostel Type", "Room Features", "Bed", "Price"};
         mdl_search_list.setColumnIdentifiers(col_search_list);
 
         for (Room room : Room.getList()){
-            Object[] row = new Object[col_hotel_list.length];
-            row[0] = room.getHotel().getName();
-            row[1] = room.getHotel().getCity();
-            row[2] = room.getHotel().getRegion();
-            row[3] = room.getRoomType();
-            row[4] = room.getHotel().getHotel_features();
-            row[5] = room.getBed();
-            row[6] = "100";
-            mdl_search_list.addRow(row);
+            for (HostelType hostelType : HostelType.getHostelType(room.getHotelId())){
+                if (hostelType.getHotel_id() == room.getHotelId()){
+                    Object[] row = new Object[col_hotel_list.length];
+                    row[0] = room.getHotel().getName();
+                    row[1] = room.getHotel().getCity();
+                    row[2] = room.getHotel().getRegion();
+                    row[3] = room.getRoomType();
+                    row[4] = hostelType.getType();
+                    row[5] = room.getHotel().getHotel_features();
+                    row[6] = room.getBed();
+                    row[7] = "100";
+                    mdl_search_list.addRow(row);
+                }
+            }
         }
         tbl_search_list.setModel(mdl_search_list);
 
@@ -183,19 +189,25 @@ public class AgencyEmployeeGUI extends JFrame {
                 Helper.showMessage("fill");
             } else {
                 mdl_search_list.setRowCount(0);
+                fld_region_city_hotel.setText(fld_region_city_hotel.getText().toLowerCase());
                 for (Room room : Hotel.findBySearch(fld_region_city_hotel.getText(),
                         Integer.parseInt(cmb_person.getSelectedItem().toString()),
                         Integer.parseInt(cmb_child.getSelectedItem().toString()))){
-                    Object[] row = new Object[col_hotel_list.length];
-                    row[0] = room.getHotel().getName();
-                    row[1] = room.getHotel().getCity();
-                    row[2] = room.getHotel().getRegion();
-                    row[3] = room.getRoomType();
-                    row[4] = room.getHotel().getHotel_features();
-                    row[5] = room.getBed();
-                    row[6] = "100";
-                    mdl_search_list.addRow(row);
-                    tbl_search_list.setModel(mdl_search_list);
+                    for (HostelType hostelType : HostelType.getHostelType(room.getHotelId())){
+                        if (room.getHotelId() == hostelType.getHotel_id()){
+                            Object[] row = new Object[col_hotel_list.length];
+                            row[0] = room.getHotel().getName();
+                            row[1] = room.getHotel().getCity();
+                            row[2] = room.getHotel().getRegion();
+                            row[3] = room.getRoomType();
+                            row[4] = hostelType.getType();
+                            row[5] = room.getHotel().getHotel_features();
+                            row[6] = room.getBed();
+                            row[7] = "100";
+                            mdl_search_list.addRow(row);
+                            tbl_search_list.setModel(mdl_search_list);
+                        }
+                    }
                 }
             }
         });
