@@ -212,6 +212,7 @@ public class Hotel {
         ArrayList<Room> searchedRoomList = new ArrayList<>();
         Hotel obj;
         String query = "SELECT * FROM hotel WHERE region = ? OR city = ? OR name = ?";
+        //String query = "SELECT * FROM hotel WHERE region LIKE '%{{region}}%' OR city LIKE '%{{city}}%' OR name LIKE '%{{name}}%'";
         try {
             PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
             pr.setString(1, search);

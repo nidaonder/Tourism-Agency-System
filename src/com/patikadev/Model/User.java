@@ -1,5 +1,6 @@
 package com.patikadev.Model;
 
+import com.mysql.cj.protocol.x.ReusableOutputStream;
 import com.patikadev.Helper.DBConnector;
 import com.patikadev.Helper.Helper;
 
@@ -102,6 +103,39 @@ public class User {
                 obj.setPassword(rs.getString("password"));
                 obj.setType(rs.getString("type"));
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return obj;
+    }
+
+    public static User getFetch(String uname, String password){
+        User obj = null;
+        String query = "SELECT * FROM user WHERE uname = ? AND password = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setString(1, uname);
+            pr.setString(2, password);
+            ResultSet rs = pr.executeQuery();
+            if (rs.next()){
+                switch (rs.getString("type")){
+                    case "admin":
+                        obj = new Admin();
+                        break;
+                    case "employee":
+                        obj = new AgencyEmployee();
+                        break;
+                    default:
+                        obj = new User();
+                        break;
+                }
+                obj.setId(rs.getInt("id"));
+                obj.setName(rs.getString("name"));
+                obj.setUname(rs.getString("uname"));
+                obj.setPassword(rs.getString("password"));
+                obj.setType(rs.getString("type"));
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
