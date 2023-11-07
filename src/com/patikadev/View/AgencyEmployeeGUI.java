@@ -162,21 +162,23 @@ public class AgencyEmployeeGUI extends JFrame {
             }
         };
 
-        Object[] col_search_list = {"Hotel Name", "City", "Region", "Room Type", "Hostel Type", "Room Features", "Bed", "Price"};
+        Object[] col_search_list = {"Hotel Name", "City", "Region", "Room Type", "Hostel Type", "Season", "Room Features", "Bed", "Remaining Rooms", "Price"};
         mdl_search_list.setColumnIdentifiers(col_search_list);
 
         for (Room room : Room.getList()){
             for (HostelType hostelType : HostelType.getHostelType(room.getHotelId())){
                 if (hostelType.getHotel_id() == room.getHotelId()){
-                    Object[] row = new Object[col_hotel_list.length];
+                    Object[] row = new Object[col_search_list.length];
                     row[0] = room.getHotel().getName();
                     row[1] = room.getHotel().getCity();
                     row[2] = room.getHotel().getRegion();
                     row[3] = room.getRoomType();
                     row[4] = hostelType.getType();
-                    row[5] = room.getHotel().getHotel_features();
-                    row[6] = room.getBed();
-                    row[7] = "100";
+                    row[5] = "season";
+                    row[6] = room.getHotel().getHotel_features();
+                    row[7] = room.getBed();
+                    row[8] = room.getRemainingRooms();
+                    row[9] = "100";
                     mdl_search_list.addRow(row);
                 }
             }
@@ -201,9 +203,11 @@ public class AgencyEmployeeGUI extends JFrame {
                             row[2] = room.getHotel().getRegion();
                             row[3] = room.getRoomType();
                             row[4] = hostelType.getType();
-                            row[5] = room.getHotel().getHotel_features();
-                            row[6] = room.getBed();
-                            row[7] = "100";
+                            row[5] = "season";
+                            row[6] = room.getHotel().getHotel_features();
+                            row[7] = room.getBed();
+                            row[8] = room.getRemainingRooms();
+                            row[9] = "100";
                             mdl_search_list.addRow(row);
                             tbl_search_list.setModel(mdl_search_list);
                         }
@@ -247,9 +251,6 @@ public class AgencyEmployeeGUI extends JFrame {
 
             }
         });
-
-
-
     }
 
     public static void main(String[] args) {
