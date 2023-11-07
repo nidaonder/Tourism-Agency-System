@@ -183,6 +183,7 @@ public class AgencyEmployeeGUI extends JFrame {
             }
         }
         tbl_search_list.setModel(mdl_search_list);
+        tbl_search_list.getTableHeader().setReorderingAllowed(false);
 
         // Search room
         btn_search.addActionListener(e -> {
@@ -212,6 +213,7 @@ public class AgencyEmployeeGUI extends JFrame {
                                 row[9] = "100";
                                 mdl_search_list.addRow(row);
                                 tbl_search_list.setModel(mdl_search_list);
+                                tbl_search_list.getTableHeader().setReorderingAllowed(false);
                             }
                         }
 
