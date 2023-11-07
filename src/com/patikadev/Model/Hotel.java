@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Hotel {
@@ -34,7 +36,6 @@ public class Hotel {
         this.stars = stars;
         this.hotel_features = hotel_features;
     }
-
 
 
     public int getId() {
@@ -208,9 +209,13 @@ public class Hotel {
         return obj;
     }
 
-    public static ArrayList<Room> findBySearch(String search, int person, int child){
+    public static ArrayList<Room> findBySearch(String search, int person, int child, String check_in, String check_out){
         ArrayList<Hotel> searchHotelList = new ArrayList<>();
         ArrayList<Room> searchedRoomList = new ArrayList<>();
+
+       // season_start = LocalDate.parse(season_start, DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString();
+       // season_end = LocalDate.parse(season_end, DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString();
+
         Hotel obj;
         String query = "SELECT * FROM hotel WHERE region = ? OR city = ? OR name = ?";
         try {
@@ -236,7 +241,7 @@ public class Hotel {
 
             for (Hotel hotel : searchHotelList){
                 for (Room room : Room.getList()){
-                    if (room.getHotelId() == hotel.getId() && room.getBed() >= (person + child)){
+                    if (room.getHotelId() == hotel.getId() && room.getBed() >= (person + child)){// tarih kontrolü sadece oda fiyatını veya stoğu etkiler. listeleme şartı olamaz
                         searchedRoomList.add(room);
                     }
                 }

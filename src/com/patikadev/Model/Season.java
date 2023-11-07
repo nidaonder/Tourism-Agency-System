@@ -2,11 +2,12 @@ package com.patikadev.Model;
 
 import com.patikadev.Helper.DBConnector;
 
-import javax.swing.*;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Season {
@@ -66,7 +67,7 @@ public class Season {
         this.hotel = hotel;
     }
 
-    public static ArrayList<Season> getSeason(int hotel_id){
+    public static ArrayList<Season> getList(){
         ArrayList<Season> seasonList = new ArrayList<>();
         Season obj;
         String query = "SELECT * FROM season";
@@ -87,26 +88,40 @@ public class Season {
         return seasonList;
     }
 
-    /*
-    import java.time.LocalDate;
-
-public class Main {
-    public static void main(String[] args) {
-        // İlk tarih
-        LocalDate date1 = LocalDate.of(2023, 11, 6);
-
-        // Karşılaştırılacak tarih
-        LocalDate date2 = LocalDate.of(2023, 12, 31);
-
-        // date1, date2'den önce mi?
-        boolean isBefore = date1.isBefore(date2);
-        System.out.println("date1, date2'den önce mi? " + isBefore); // true
-
-        // date1, date2'den sonra mı?
-        boolean isAfter = date1.isAfter(date2);
-        System.out.println("date1, date2'den sonra mı? " + isAfter); // false
+    public static Season getFetch(int hotel_id){
+        Season obj = null;
+        String query = "SELECT * FROM season WHERE hotel_id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, hotel_id);
+            ResultSet rs = pr.executeQuery();
+            if (rs.next()){
+                obj = new Season(rs.getInt("id"), rs.getInt("hotel_id"),
+                        rs.getObject("season_start", LocalDate.class), rs.getObject("season_finish", LocalDate.class));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return obj;
     }
-}
 
-     */
+    public static boolean isDateWithinRange(String check_in, String check_out, int hotel_id){
+
+        //check_in = LocalDate.parse(check_in, DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString();
+        //check_out = LocalDate.parse(check_out, DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate checkInDate = LocalDate.parse(check_in, formatter);
+        LocalDate checkOutDate = LocalDate.parse(check_out, formatter);
+
+        LocalDate startDate = getFetch(hotel_id).getSeason_start();
+        LocalDate endDate = getFetch(hotel_id).getSeason_end();
+
+        if (checkInDate.isAfter(startDate) && checkOutDate.isBefore(endDate)){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
