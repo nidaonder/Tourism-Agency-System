@@ -2,10 +2,7 @@ package com.patikadev.View;
 
 import com.patikadev.Helper.Config;
 import com.patikadev.Helper.Helper;
-import com.patikadev.Model.AgencyEmployee;
-import com.patikadev.Model.HostelType;
-import com.patikadev.Model.Hotel;
-import com.patikadev.Model.Room;
+import com.patikadev.Model.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -162,24 +159,27 @@ public class AgencyEmployeeGUI extends JFrame {
             }
         };
 
-        Object[] col_search_list = {"Hotel Name", "City", "Region", "Room Type", "Hostel Type", "Season", "Room Features", "Bed", "Remaining Rooms", "Price"};
+        Object[] col_search_list = {"Hotel Name", "City", "Region", "Room Type", "Hostel Type", "Season",
+                "Room Features", "Bed", "Remaining Rooms", "Price"};
         mdl_search_list.setColumnIdentifiers(col_search_list);
 
         for (Room room : Room.getList()){
             for (HostelType hostelType : HostelType.getHostelType(room.getHotelId())){
-                if (hostelType.getHotel_id() == room.getHotelId()){
-                    Object[] row = new Object[col_search_list.length];
-                    row[0] = room.getHotel().getName();
-                    row[1] = room.getHotel().getCity();
-                    row[2] = room.getHotel().getRegion();
-                    row[3] = room.getRoomType();
-                    row[4] = hostelType.getType();
-                    row[5] = "season";
-                    row[6] = room.getHotel().getHotel_features();
-                    row[7] = room.getBed();
-                    row[8] = room.getRemainingRooms();
-                    row[9] = "100";
-                    mdl_search_list.addRow(row);
+                for (Season season : Season.getSeason(room.getHotelId())){
+                    if (hostelType.getHotel_id() == room.getHotelId() && hostelType.getHotel_id() == season.getHotel_id()){
+                        Object[] row = new Object[col_search_list.length];
+                        row[0] = room.getHotel().getName();
+                        row[1] = room.getHotel().getCity();
+                        row[2] = room.getHotel().getRegion();
+                        row[3] = room.getRoomType();
+                        row[4] = hostelType.getType();
+                        row[5] = season.getSeason_start() + " - " + season.getSeason_end();
+                        row[6] = room.getHotel().getHotel_features();
+                        row[7] = room.getBed();
+                        row[8] = room.getRemainingRooms();
+                        row[9] = "100";
+                        mdl_search_list.addRow(row);
+                    }
                 }
             }
         }
@@ -197,7 +197,7 @@ public class AgencyEmployeeGUI extends JFrame {
                         Integer.parseInt(cmb_child.getSelectedItem().toString()))){
                     for (HostelType hostelType : HostelType.getHostelType(room.getHotelId())){
                         if (room.getHotelId() == hostelType.getHotel_id()){
-                            Object[] row = new Object[col_hotel_list.length];
+                            Object[] row = new Object[col_search_list.length];
                             row[0] = room.getHotel().getName();
                             row[1] = room.getHotel().getCity();
                             row[2] = room.getHotel().getRegion();
