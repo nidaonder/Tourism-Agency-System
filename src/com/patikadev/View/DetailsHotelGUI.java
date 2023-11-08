@@ -5,6 +5,7 @@ import com.patikadev.Helper.Helper;
 import com.patikadev.Model.HostelType;
 import com.patikadev.Model.Hotel;
 import com.patikadev.Model.Room;
+import com.patikadev.Model.Season;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -60,6 +61,8 @@ public class DetailsHotelGUI extends JFrame{
     private JPopupMenu roomMenu;
     private DefaultTableModel mdl_hostel_type;
     private Object[] row_hostel_type;
+    private DefaultTableModel mdl_seasons;
+    private Object[] row_seasons;
 
 
     private Hotel hotel;
@@ -169,8 +172,36 @@ public class DetailsHotelGUI extends JFrame{
         tbl_hostel_type_list.setModel(mdl_hostel_type);
         tbl_hostel_type_list.getTableHeader().setReorderingAllowed(false);
 
+        // Seasons Table;
+        mdl_seasons = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if (column >= 0){
+                    return false;
+                }
+                return super.isCellEditable(row, column);
+            }
+        };
 
-        // Delete room
+        Object[] col_seasons = {"HOTEL NAME", "SEASON"};
+        mdl_seasons.setColumnIdentifiers(col_seasons);
+
+        for (Season season : Season.getList()){
+            Object[] row = new Object[col_seasons.length];
+            if (season.getHotelId() == hotel.getId()){
+                row[0] = hotel.getName();
+                row[1] = season.getSeasonStart() + " - " + season.getSeasonEnd();
+                mdl_seasons.addRow(row);
+            }
+        }
+
+        tbl_seasons_list.setModel(mdl_seasons);
+        tbl_seasons_list.getTableHeader().setReorderingAllowed(false);
+
+
+
+
+
         tbl_room_list.getSelectionModel().addListSelectionListener(e -> {
             try{
                 String select_room_id = tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(), 0).toString();
@@ -191,7 +222,7 @@ public class DetailsHotelGUI extends JFrame{
             }
         }
 
-        // Add Room
+        // Add Room;
         btn_room_add.addActionListener(e -> {
             if (Helper.isFieldEmpty(fld_hotel_id) || Helper.isFieldEmpty(fld_room_type) || Helper.isFieldEmpty(fld_remaining_rooms)){
                 Helper.showMessage("fill");
@@ -211,7 +242,7 @@ public class DetailsHotelGUI extends JFrame{
             }
         });
 
-        // Delete Room
+        // Delete Room;
         btn_room_delete.addActionListener(e -> {
             if (Helper.isFieldEmpty(fld_room_id)){
                 Helper.showMessage("fill");
@@ -226,7 +257,7 @@ public class DetailsHotelGUI extends JFrame{
                 }
         });
 
-        // Hostel-Type add;
+        // Add Hostel-Type;
         btn_hostel_add.addActionListener(e -> {
 
             if (!onlyBedRadioButton.isSelected() && !BBRadioButton.isSelected() && !halfPensionRadioButton.isSelected() &&
@@ -272,7 +303,13 @@ public class DetailsHotelGUI extends JFrame{
 
         // Add season
         btn_season_add.addActionListener(e -> {
-
+            if (Helper.isFieldEmpty(fld_season_start) || Helper.isFieldEmpty(fld_season_end)){
+                Helper.showMessage("fill");
+            } else {
+                Season.addSeason(hotel.getId(), fld_season_start.getText(), fld_season_end.getText());
+                Helper.showMessage("done");
+                loadSeasonsModel();
+            }
         });
     }
 
@@ -303,6 +340,20 @@ public class DetailsHotelGUI extends JFrame{
                 row[0] = hotel.getName();
                 row[1] = hostelType.getType();
                 mdl_hostel_type.addRow(row);
+            }
+        }
+    }
+
+    public void loadSeasonsModel(){
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_seasons_list.getModel();
+        clearModel.setRowCount(0);
+        Object[] col_seasons = {"HOTEL NAME", "SEASON"};
+        for (Season season : Season.getList()){
+            if (season.getHotelId() == hotel.getId()){
+                Object[] row = new Object[col_seasons.length];
+                row[0] = hotel.getName();
+                row[1] = season.getSeasonStart() + " - " + season.getSeasonEnd();
+                mdl_seasons.addRow(row);
             }
         }
     }

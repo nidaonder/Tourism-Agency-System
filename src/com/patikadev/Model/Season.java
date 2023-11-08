@@ -76,7 +76,7 @@ public class Season {
                 obj = new Season();
                 obj.setId(rs.getInt("id"));
                 obj.setHotelId(rs.getInt("hotel_id"));
-                obj.setSeasonStart(rs.getString("seaoson_start"));
+                obj.setSeasonStart(rs.getString("season_start"));
                 obj.setSeasonEnd(rs.getString("season_end"));
                 seasonList.add(obj);
             }
@@ -84,6 +84,19 @@ public class Season {
             throw new RuntimeException(e);
         }
         return seasonList;
+    }
+
+    public static boolean addSeason(int hotelId, String seasonStart, String seasonEnd){
+        String query = "INSERT INTO season (hotel_id, season_start, season_end) VALUES (?, ?, ?)";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, hotelId);
+            pr.setString(2, seasonStart);
+            pr.setString(3, seasonEnd);
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static Season getFetch(int hotelId){
