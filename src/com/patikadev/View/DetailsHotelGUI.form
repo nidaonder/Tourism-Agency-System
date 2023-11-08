@@ -126,7 +126,8 @@
                           </grid>
                         </constraints>
                         <properties>
-                          <editable value="false"/>
+                          <editable value="true"/>
+                          <enabled value="false"/>
                         </properties>
                       </component>
                       <component id="34436" class="javax.swing.JLabel">
@@ -213,7 +214,7 @@
                 <border type="none"/>
                 <children>
                   <grid id="5c818" binding="pnl_seasons" layout-manager="GridLayoutManager" row-count="9" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <margin top="10" left="10" bottom="10" right="10"/>
                     <constraints/>
                     <properties/>
                     <border type="none"/>
@@ -247,7 +248,8 @@
                           </grid>
                         </constraints>
                         <properties>
-                          <editable value="false"/>
+                          <editable value="true"/>
+                          <enabled value="false"/>
                         </properties>
                       </component>
                       <component id="dcd86" class="javax.swing.JLabel">

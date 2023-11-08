@@ -137,6 +137,8 @@ public class DetailsHotelGUI extends JFrame{
         });
 
         fld_hotel_id.setText(String.valueOf(hotel.getId()));
+        fld_hstl_htl_id.setText(String.valueOf(hotel.getId()));
+        fld_seasn_htl_id.setText(String.valueOf(hotel.getId()));
 
         // Delete room
         tbl_room_list.getSelectionModel().addListSelectionListener(e -> {
@@ -171,7 +173,7 @@ public class DetailsHotelGUI extends JFrame{
                 if (Room.addRoom(hotelID, roomType, bed, remainingRooms)){
                     Helper.showMessage("done");
                     loadRoomModel();
-                    fld_hotel_id.setText(null);
+                    fld_hotel_id.setText(String.valueOf(hotel.getId()));
                     fld_room_type.setText(null);
                     cmb_room_bed.setSelectedItem(null);
                     fld_remaining_rooms.setText(null);

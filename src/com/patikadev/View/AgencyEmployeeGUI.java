@@ -216,8 +216,6 @@ public class AgencyEmployeeGUI extends JFrame {
                                 tbl_search_list.getTableHeader().setReorderingAllowed(false);
                             }
                         }
-
-
                     }
                 }
             }
