@@ -15,14 +15,6 @@ public class DetailsHotelGUI extends JFrame{
     private JTabbedPane tab_hotel_info;
     private JLabel lbl_hotel_info;
     private JPanel pnl_top;
-    private JLabel lbl_hotel_name;
-    private JLabel lbl_hotel_city;
-    private JLabel lbl_hotel_region;
-    private JLabel lbl_hotel_address;
-    private JLabel lbl_hotel_mail;
-    private JLabel lbl_hotel_phone;
-    private JLabel lbl_hotel_stars;
-    private JLabel lbl_hotel_features;
     private JScrollPane scrl_room_list;
     private JTable tbl_room_list;
     private JPanel pnl_room_form;
@@ -40,8 +32,8 @@ public class DetailsHotelGUI extends JFrame{
     private JTextField fld_hstl_htl_id;
     private JButton btn_hostel_add;
     private JTextField fld_seasn_htl_id;
-    private JTextField textField1;
-    private JTextField textField2;
+    private JTextField fld_check_in;
+    private JTextField fld_check_out;
     private JButton btn_season_add;
     private JRadioButton onlyBedRadioButton;
     private JRadioButton bedAndBreakfastRadioButton;
@@ -50,6 +42,12 @@ public class DetailsHotelGUI extends JFrame{
     private JRadioButton allInclusiveRadioButton;
     private JRadioButton ultraAllInclusiveRadioButton;
     private JRadioButton fullCreditExceptForRadioButton;
+    private JTextField fld_hotel_name;
+    private JTextField fld_hotel_address;
+    private JTextField fld_hotel_mail;
+    private JTextField fld_phone_number;
+    private JTextField fld_hotel_stars;
+    private JTextField fld_hotel_features;
     private DefaultTableModel mdl_room_list;
     private Object[] row_room_list;
     private JPopupMenu roomMenu;
@@ -81,14 +79,12 @@ public class DetailsHotelGUI extends JFrame{
         lbl_hotel_info.setText(hotel.getName());
 
         // Hotel Info:
-        lbl_hotel_name.setText("Hotel Name : " + hotel.getName());
-        lbl_hotel_city.setText("City : " + hotel.getCity());
-        lbl_hotel_region.setText("Region : " + hotel.getRegion());
-        lbl_hotel_address.setText("Address : " + hotel.getAddress());
-        lbl_hotel_mail.setText("E-Mail : " + hotel.getEmail());
-        lbl_hotel_phone.setText("Phone Number : " + hotel.getPhone_number());
-        lbl_hotel_stars.setText(hotel.getStars() + " Stars");
-        lbl_hotel_features.setText("Hotel Features  : " + hotel.getHotel_features());
+        fld_hotel_name.setText(hotel.getName());
+        fld_hotel_address.setText(hotel.getAddress());
+        fld_hotel_mail.setText(hotel.getEmail());
+        fld_phone_number.setText(hotel.getPhone_number());
+        fld_hotel_stars.setText(hotel.getStars());
+        fld_hotel_features.setText(hotel.getHotel_features());
 
         // ModelRoomList:
         roomMenu = new JPopupMenu();
