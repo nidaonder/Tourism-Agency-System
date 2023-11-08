@@ -243,19 +243,18 @@ public class AgencyEmployeeGUI extends JFrame {
 
                 if (Hotel.addHotel(name, city, region, address, email, phoneNumber, stars, hotelFeatures)){
                     Helper.showMessage("done");
-
-                    // Reset spaces;
-                    fld_hotel_name.setText(null);
-                    fld_hotel_city.setText(null);
-                    fld_hotel_region.setText(null);
-                    fld_hotel_address.setText(null);
-                    fld_hotel_email.setText(null);
-                    fld_hotel_phone.setText(null);
-                    cmb_stars.setSelectedItem(null);
-                    fld_hotel_features.setText(null);
-                    loadHotelModel();
                 }
             }
+            // Reset spaces
+            fld_hotel_name.setText(null);
+            fld_hotel_city.setText(null);
+            fld_hotel_region.setText(null);
+            fld_hotel_address.setText(null);
+            fld_hotel_email.setText(null);
+            fld_hotel_phone.setText(null);
+            cmb_stars.setSelectedItem(null);
+            fld_hotel_features.setText(null);
+            loadHotelModel();
         });
 
         // Log-Out button;

@@ -49,6 +49,8 @@ public class DetailsHotelGUI extends JFrame{
     private JTextField fld_phone_number;
     private JTextField fld_hotel_stars;
     private JTextField fld_hotel_features;
+    private JTable tbl_hostel_type_list;
+    private JTable tbl_seasons_list;
     private DefaultTableModel mdl_room_list;
     private Object[] row_room_list;
     private JPopupMenu roomMenu;
@@ -225,7 +227,14 @@ public class DetailsHotelGUI extends JFrame{
                     HostelType.addHostelType(hotel.getId(), fullCreditExceptRadioButton.getText());
                 }
                 Helper.showMessage("done");
-                // radiobutton sıfırlama işlemleri......
+
+                onlyBedRadioButton.setSelected(false);
+                BBRadioButton.setSelected(false);
+                halfPensionRadioButton.setSelected(false);
+                fullBoardRadioButton.setSelected(false);
+                allInclusiveRadioButton.setSelected(false);
+                ultraAllInclusiveRadioButton.setSelected(false);
+                fullCreditExceptRadioButton.setSelected(false);
             }
         });
     }
