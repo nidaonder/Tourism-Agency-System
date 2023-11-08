@@ -2,6 +2,7 @@ package com.patikadev.View;
 
 import com.patikadev.Helper.Config;
 import com.patikadev.Helper.Helper;
+import com.patikadev.Model.HostelType;
 import com.patikadev.Model.Hotel;
 import com.patikadev.Model.Room;
 
@@ -36,12 +37,12 @@ public class DetailsHotelGUI extends JFrame{
     private JTextField fld_check_out;
     private JButton btn_season_add;
     private JRadioButton onlyBedRadioButton;
-    private JRadioButton bedAndBreakfastRadioButton;
+    private JRadioButton BBRadioButton;
     private JRadioButton halfPensionRadioButton;
     private JRadioButton fullBoardRadioButton;
     private JRadioButton allInclusiveRadioButton;
     private JRadioButton ultraAllInclusiveRadioButton;
-    private JRadioButton fullCreditExceptForRadioButton;
+    private JRadioButton fullCreditExceptRadioButton;
     private JTextField fld_hotel_name;
     private JTextField fld_hotel_address;
     private JTextField fld_hotel_mail;
@@ -190,6 +191,42 @@ public class DetailsHotelGUI extends JFrame{
                         Helper.showMessage("error");
                     }
                 }
+        });
+
+        // Hostel-Type add;
+        btn_hostel_add.addActionListener(e -> {
+
+            if (!onlyBedRadioButton.isSelected() && !BBRadioButton.isSelected() && !halfPensionRadioButton.isSelected() &&
+                    !fullBoardRadioButton.isSelected() && !allInclusiveRadioButton.isSelected() &&
+                    !ultraAllInclusiveRadioButton.isSelected() && !fullCreditExceptRadioButton.isSelected()){
+                Helper.showMessage("Please choose something!");
+
+            } else {
+
+                if (onlyBedRadioButton.isSelected()){
+                    HostelType.addHostelType(hotel.getId(), onlyBedRadioButton.getText());
+                }
+                if (BBRadioButton.isSelected()){
+                    HostelType.addHostelType(hotel.getId(), BBRadioButton.getText());
+                }
+                if (halfPensionRadioButton.isSelected()){
+                    HostelType.addHostelType(hotel.getId(), halfPensionRadioButton.getText());
+                }
+                if (fullBoardRadioButton.isSelected()){
+                    HostelType.addHostelType(hotel.getId(), fullBoardRadioButton.getText());
+                }
+                if (allInclusiveRadioButton.isSelected()){
+                    HostelType.addHostelType(hotel.getId(), allInclusiveRadioButton.getText());
+                }
+                if (ultraAllInclusiveRadioButton.isSelected()){
+                    HostelType.addHostelType(hotel.getId(), ultraAllInclusiveRadioButton.getText());
+                }
+                if (fullCreditExceptRadioButton.isSelected()){
+                    HostelType.addHostelType(hotel.getId(), fullCreditExceptRadioButton.getText());
+                }
+                Helper.showMessage("done");
+                // radiobutton sıfırlama işlemleri......
+            }
         });
     }
 

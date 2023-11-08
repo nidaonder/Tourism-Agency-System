@@ -189,15 +189,18 @@ public class AgencyEmployeeGUI extends JFrame {
         btn_search.addActionListener(e -> {
             if (Helper.isFieldEmpty(fld_region_city_hotel)){
                 Helper.showMessage("fill");
+
             } else {
                 mdl_search_list.setRowCount(0);
                 fld_region_city_hotel.setText(fld_region_city_hotel.getText().toLowerCase());
+
                 for (Room room : Hotel.findBySearch(fld_region_city_hotel.getText(),
                         Integer.parseInt(cmb_person.getSelectedItem().toString()),
                         Integer.parseInt(cmb_child.getSelectedItem().toString()),
                         fld_check_in.getText(),
                         fld_check_out.getText())){
                     for (HostelType hostelType : HostelType.getHostelType(room.getHotelId())){
+
                         for (Season season : Season.getList()){
                             if (room.getHotelId() == hostelType.getHotel_id() && room.getHotelId() == season.getHotel_id()){
                                 Object[] row = new Object[col_search_list.length];
@@ -221,17 +224,13 @@ public class AgencyEmployeeGUI extends JFrame {
             }
         });
 
-        btn_logout.addActionListener(e -> {
-            dispose();
-            LoginGUI login = new LoginGUI();
-        });
-
-        // Hotel add
+        // Add Hotel button;
         btn_add_hotel.addActionListener(e -> {
             if (Helper.isFieldEmpty(fld_hotel_name) || Helper.isFieldEmpty(fld_hotel_city) || Helper.isFieldEmpty(fld_hotel_region) ||
                     Helper.isFieldEmpty(fld_hotel_address) || Helper.isFieldEmpty(fld_hotel_email) ||
                     Helper.isFieldEmpty(fld_hotel_phone) || Helper.isFieldEmpty(fld_hotel_features)){
                 Helper.showMessage("fill");
+
             } else {
                 String name = fld_hotel_name.getText();
                 String city = fld_hotel_city.getText();
@@ -241,8 +240,11 @@ public class AgencyEmployeeGUI extends JFrame {
                 String phoneNumber = fld_hotel_phone.getText();
                 String stars = cmb_stars.getSelectedItem().toString();
                 String hotelFeatures = fld_hotel_features.getText();
+
                 if (Hotel.addHotel(name, city, region, address, email, phoneNumber, stars, hotelFeatures)){
                     Helper.showMessage("done");
+
+                    // Reset spaces;
                     fld_hotel_name.setText(null);
                     fld_hotel_city.setText(null);
                     fld_hotel_region.setText(null);
@@ -253,9 +255,15 @@ public class AgencyEmployeeGUI extends JFrame {
                     fld_hotel_features.setText(null);
                     loadHotelModel();
                 }
-
             }
         });
+
+        // Log-Out button;
+        btn_logout.addActionListener(e -> {
+            dispose();
+            LoginGUI login = new LoginGUI();
+        });
+
     }
 
     public static void main(String[] args) {

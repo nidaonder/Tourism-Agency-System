@@ -1,14 +1,12 @@
 package com.patikadev.Model;
 
 import com.patikadev.Helper.DBConnector;
+import com.patikadev.Helper.Helper;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Hotel {
@@ -36,7 +34,6 @@ public class Hotel {
         this.stars = stars;
         this.hotel_features = hotel_features;
     }
-
 
     public int getId() {
         return id;
@@ -137,7 +134,13 @@ public class Hotel {
     }
     public static boolean addHotel(String name, String city, String region, String address, String email,
                                    String phoneNumber, String stars, String hotelFeatures) {
-        String query = "INSERT INTO hotel (name, city, region, address, email, phone_number, stars, hotel_features) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO hotel (name, city, region, address, email, " +
+                "phone_number, stars, hotel_features) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        Hotel findHotel = Hotel.getFetchByMail(email);
+        if (findHotel != null){
+            Helper.showMessage("This hotel has been previously saved!");
+            return false;
+        }
         try {
             PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
             pr.setString(1,name);
@@ -195,13 +198,35 @@ public class Hotel {
         String query =  "SELECT * FROM hotel WHERE id = ?";
         try {
             PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
-            pr.setInt(1,id);
+            pr.setInt(1, id);
             ResultSet rs = pr.executeQuery();
             if (rs.next()){
-                obj = new Hotel(rs.getInt("id"), rs.getString("name"), rs.getString("city"), rs.getString("region"),
-                        rs.getString("address"), rs.getString("email"), rs.getString("phone_number"),
-                        rs.getString("stars"), rs.getString("hotel_features"));
+                obj = new Hotel(rs.getInt("id"), rs.getString("name"),
+                        rs.getString("city"), rs.getString("region"),
+                        rs.getString("address"), rs.getString("email"),
+                        rs.getString("phone_number"), rs.getString("stars"),
+                        rs.getString("hotel_features"));
 
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return obj;
+    }
+
+    public static Hotel getFetchByMail(String email){
+        Hotel obj = null;
+        String query =  "SELECT * FROM hotel WHERE email = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setString(1, email);
+            ResultSet rs = pr.executeQuery();
+            if (rs.next()){
+                obj = new Hotel(rs.getInt("id"), rs.getString("name"),
+                        rs.getString("city"), rs.getString("region"),
+                        rs.getString("address"), rs.getString("email"),
+                        rs.getString("phone_number"), rs.getString("stars"),
+                        rs.getString("hotel_features"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -212,9 +237,6 @@ public class Hotel {
     public static ArrayList<Room> findBySearch(String search, int person, int child, String check_in, String check_out){
         ArrayList<Hotel> searchHotelList = new ArrayList<>();
         ArrayList<Room> searchedRoomList = new ArrayList<>();
-
-       // season_start = LocalDate.parse(season_start, DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString();
-       // season_end = LocalDate.parse(season_end, DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString();
 
         Hotel obj;
         String query = "SELECT * FROM hotel WHERE region = ? OR city = ? OR name = ?";

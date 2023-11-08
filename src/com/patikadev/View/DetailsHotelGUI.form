@@ -90,7 +90,7 @@
                           <text value="Only Bed"/>
                         </properties>
                       </component>
-                      <component id="fdc09" class="javax.swing.JRadioButton" binding="bedAndBreakfastRadioButton" default-binding="true">
+                      <component id="fdc09" class="javax.swing.JRadioButton" binding="BBRadioButton">
                         <constraints>
                           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -130,7 +130,7 @@
                           <text value="Ultra All Inclusive"/>
                         </properties>
                       </component>
-                      <component id="4aa6d" class="javax.swing.JRadioButton" binding="fullCreditExceptForRadioButton" default-binding="true">
+                      <component id="4aa6d" class="javax.swing.JRadioButton" binding="fullCreditExceptRadioButton">
                         <constraints>
                           <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>

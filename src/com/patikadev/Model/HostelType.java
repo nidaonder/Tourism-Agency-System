@@ -2,6 +2,7 @@ package com.patikadev.Model;
 
 import com.patikadev.Helper.DBConnector;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -51,6 +52,19 @@ public class HostelType {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+
+    public static boolean addHostelType(int hotel_id, String type){
+        String query = "INSERT INTO hostel_type (hotel_id, type) VALUES (?,?)";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, hotel_id);
+            pr.setString(2, type);
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static ArrayList<HostelType> getHostelType(int hotel_id){
