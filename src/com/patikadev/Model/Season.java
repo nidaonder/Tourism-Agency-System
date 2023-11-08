@@ -6,25 +6,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Season {
     private int id;
-    private int hotel_id;
-    private LocalDate season_start;
-    private LocalDate season_end;
+    private int hotelId;
+    private String seasonStart;
+    private String seasonEnd;
     private Hotel hotel;
 
 
     public Season(){}
-    public Season(int id, int hotel_id, LocalDate season_start, LocalDate season_end) {
+    public Season(int id, int hotelId, String seasonStart, String  seasonEnd) {
         this.id = id;
-        this.hotel_id = hotel_id;
-        this.season_start = season_start;
-        this.season_end = season_end;
-        this.hotel = Hotel.getFetch(hotel_id);
+        this.hotelId = hotelId;
+        this.seasonStart = seasonStart;
+        this.seasonEnd = seasonEnd;
+        this.hotel = Hotel.getFetch(hotelId);
     }
 
     public int getId() {
@@ -35,32 +33,32 @@ public class Season {
         this.id = id;
     }
 
-    public int getHotel_id() {
-        return hotel_id;
+    public int getHotelId() {
+        return hotelId;
     }
 
-    public void setHotel_id(int hotel_id) {
-        this.hotel_id = hotel_id;
+    public void setHotelId(int hotelId) {
+        this.hotelId = hotelId;
     }
 
-    public LocalDate getSeason_start() {
-        return season_start;
+    public String getSeasonStart() {
+        return seasonStart;
     }
 
-    public void setSeason_start(LocalDate season_start) {
-        this.season_start = season_start;
+    public void setSeasonStart(String seasonStart) {
+        this.seasonStart = seasonStart;
     }
 
-    public LocalDate getSeason_end() {
-        return season_end;
+    public String getSeasonEnd() {
+        return seasonEnd;
     }
 
-    public void setSeason_end(LocalDate season_end) {
-        this.season_end = season_end;
+    public void setSeasonEnd(String seasonEnd) {
+        this.seasonEnd = seasonEnd;
     }
 
     public Hotel getHotel() {
-        return Hotel.getFetch(this.hotel_id);
+        return Hotel.getFetch(this.hotelId);
     }
 
     public void setHotel(Hotel hotel) {
@@ -77,9 +75,9 @@ public class Season {
             while (rs.next()){
                 obj = new Season();
                 obj.setId(rs.getInt("id"));
-                obj.setHotel_id(rs.getInt("hotel_id"));
-                obj.setSeason_start(rs.getObject("season_start", LocalDate.class));
-                obj.setSeason_end(rs.getObject("season_finish", LocalDate.class));
+                obj.setHotelId(rs.getInt("hotel_id"));
+                obj.setSeasonStart(rs.getString("seaoson_start"));
+                obj.setSeasonEnd(rs.getString("season_end"));
                 seasonList.add(obj);
             }
         } catch (SQLException e) {
@@ -88,16 +86,16 @@ public class Season {
         return seasonList;
     }
 
-    public static Season getFetch(int hotel_id){
+    public static Season getFetch(int hotelId){
         Season obj = null;
         String query = "SELECT * FROM season WHERE hotel_id = ?";
         try {
             PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
-            pr.setInt(1, hotel_id);
+            pr.setInt(1, hotelId);
             ResultSet rs = pr.executeQuery();
             if (rs.next()){
                 obj = new Season(rs.getInt("id"), rs.getInt("hotel_id"),
-                        rs.getObject("season_start", LocalDate.class), rs.getObject("season_finish", LocalDate.class));
+                        rs.getString("season_start"), rs.getString("season_end"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -105,6 +103,8 @@ public class Season {
         return obj;
     }
 
+
+   /*
     public static boolean isDateWithinRange(String check_in, String check_out, int hotel_id){
 
         //check_in = LocalDate.parse(check_in, DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString();
@@ -124,4 +124,7 @@ public class Season {
             return false;
         }
     }
+
+    */
+
 }

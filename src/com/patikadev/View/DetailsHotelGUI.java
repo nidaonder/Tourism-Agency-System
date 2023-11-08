@@ -8,8 +8,10 @@ import com.patikadev.Model.Room;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.ParseException;
 
 public class DetailsHotelGUI extends JFrame{
     private JPanel wrapper;
@@ -33,8 +35,8 @@ public class DetailsHotelGUI extends JFrame{
     private JTextField fld_hstl_htl_id;
     private JButton btn_hostel_add;
     private JTextField fld_seasn_htl_id;
-    private JTextField fld_check_in;
-    private JTextField fld_check_out;
+    private JTextField fld_season_start;
+    private JTextField fld_season_end;
     private JButton btn_season_add;
     private JRadioButton onlyBedRadioButton;
     private JRadioButton BBRadioButton;
@@ -267,6 +269,11 @@ public class DetailsHotelGUI extends JFrame{
                 fullCreditExceptRadioButton.setSelected(false);
             }
         });
+
+        // Add season
+        btn_season_add.addActionListener(e -> {
+
+        });
     }
 
     public void loadRoomModel() {
@@ -298,6 +305,12 @@ public class DetailsHotelGUI extends JFrame{
                 mdl_hostel_type.addRow(row);
             }
         }
+    }
+
+    // Season date;
+    private void createUIComponents() throws ParseException {
+        this.fld_season_start = new JFormattedTextField(new MaskFormatter("##/##/####"));
+        this.fld_season_end = new JFormattedTextField(new MaskFormatter("##/##/####"));
     }
 
     public static void main(String[] args) {
