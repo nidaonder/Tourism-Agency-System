@@ -50,12 +50,14 @@ public class DetailsHotelGUI extends JFrame{
     private JTextField fld_hotel_stars;
     private JTextField fld_hotel_features;
     private JTable tbl_hostel_type_list;
+    private JScrollPane scrl_hostel_type;
+    private JScrollPane scrl_seasons;
     private JTable tbl_seasons_list;
     private DefaultTableModel mdl_room_list;
     private Object[] row_room_list;
     private JPopupMenu roomMenu;
-
-
+    private DefaultTableModel mdl_hostel_type;
+    private Object[] row_hostel_type;
 
 
     private Hotel hotel;
@@ -73,7 +75,7 @@ public class DetailsHotelGUI extends JFrame{
 
         this.hotel = hotel;
         add(wrapper);
-        setSize(800,800);
+        setSize(1000,1000);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
@@ -138,6 +140,33 @@ public class DetailsHotelGUI extends JFrame{
         fld_hotel_id.setText(String.valueOf(hotel.getId()));
         fld_hstl_htl_id.setText(String.valueOf(hotel.getId()));
         fld_seasn_htl_id.setText(String.valueOf(hotel.getId()));
+
+        // HostelType Table
+        mdl_hostel_type = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if (column >= 0){
+                    return false;
+                }
+                return super.isCellEditable(row, column);
+            }
+        };
+
+        Object[] col_hostel_type = {"HOTEL NAME", "HOSTEL TYPE"};
+        mdl_hostel_type.setColumnIdentifiers(col_hostel_type);
+
+        for (HostelType hostelType : HostelType.getHostelType()){
+            Object[] row = new Object[col_hostel_type.length];
+            if (hostelType.getHotel_id() == hotel.getId()){
+                row[0] = hotel.getName();
+                row[1] = hostelType.getType();
+                mdl_hostel_type.addRow(row);
+            }
+        }
+
+        tbl_hostel_type_list.setModel(mdl_hostel_type);
+        tbl_hostel_type_list.getTableHeader().setReorderingAllowed(false);
+
 
         // Delete room
         tbl_room_list.getSelectionModel().addListSelectionListener(e -> {
@@ -227,6 +256,7 @@ public class DetailsHotelGUI extends JFrame{
                     HostelType.addHostelType(hotel.getId(), fullCreditExceptRadioButton.getText());
                 }
                 Helper.showMessage("done");
+                loadHostelTypeModel();
 
                 onlyBedRadioButton.setSelected(false);
                 BBRadioButton.setSelected(false);
@@ -256,6 +286,19 @@ public class DetailsHotelGUI extends JFrame{
         }
     }
 
+    public void loadHostelTypeModel(){
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_hostel_type_list.getModel();
+        clearModel.setRowCount(0);
+        Object[] col_hostel_type = {"HOTEL NAME", "HOSTEL TYPE"};
+        for (HostelType hostelType : HostelType.getHostelType()){
+            if (hostelType.getHotel_id() == hotel.getId()){
+                Object[] row = new Object[col_hostel_type.length];
+                row[0] = hotel.getName();
+                row[1] = hostelType.getType();
+                mdl_hostel_type.addRow(row);
+            }
+        }
+    }
 
     public static void main(String[] args) {
         Helper.setLayout();

@@ -67,7 +67,7 @@ public class HostelType {
         }
     }
 
-    public static ArrayList<HostelType> getHostelType(int hotel_id){
+    public static ArrayList<HostelType> getHostelType(){
         ArrayList<HostelType> hostelTypeList = new ArrayList<>();
         HostelType obj;
         String query = "SELECT * FROM hostel_type";

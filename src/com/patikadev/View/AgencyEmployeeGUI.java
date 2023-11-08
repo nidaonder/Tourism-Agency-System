@@ -147,6 +147,10 @@ public class AgencyEmployeeGUI extends JFrame {
             }
         });
 
+
+        /*
+
+
         // Search Table
         mdl_search_list = new DefaultTableModel(){
             @Override
@@ -223,6 +227,13 @@ public class AgencyEmployeeGUI extends JFrame {
                 }
             }
         });
+
+
+
+
+        */
+
+
 
         // Add Hotel button;
         btn_add_hotel.addActionListener(e -> {

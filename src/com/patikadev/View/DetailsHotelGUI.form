@@ -293,7 +293,8 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
               <component id="d3930" class="javax.swing.JTextField" binding="fld_hotel_address">
@@ -303,7 +304,8 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
               <component id="4599e" class="javax.swing.JTextField" binding="fld_hotel_mail">
@@ -313,7 +315,8 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
               <component id="a271" class="javax.swing.JTextField" binding="fld_phone_number">
@@ -323,7 +326,8 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
               <component id="be97" class="javax.swing.JTextField" binding="fld_hotel_stars">
@@ -333,7 +337,8 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
               <component id="55732" class="javax.swing.JTextField" binding="fld_hotel_features">
@@ -343,25 +348,36 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
-              <component id="d7c6f" class="javax.swing.JTable" binding="tbl_hostel_type_list">
+              <scrollpane id="e7299" binding="scrl_hostel_type">
                 <constraints>
-                  <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
+                  <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
-              </component>
-              <component id="e40b9" class="javax.swing.JTable" binding="tbl_seasons_list">
+                <border type="none"/>
+                <children>
+                  <component id="83ebe" class="javax.swing.JTable" binding="tbl_hostel_type_list">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
+              <scrollpane id="2bd40" binding="scrl_seasons">
                 <constraints>
-                  <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
+                  <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
-              </component>
+                <border type="none"/>
+                <children>
+                  <component id="3ac4c" class="javax.swing.JTable" binding="tbl_seasons_list">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
             </children>
           </grid>
           <grid id="c7324" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
