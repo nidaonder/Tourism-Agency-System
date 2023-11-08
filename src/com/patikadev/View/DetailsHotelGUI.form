@@ -135,63 +135,7 @@
                           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
-                          <text value="Hoste Type"/>
-                        </properties>
-                      </component>
-                      <component id="11376" class="javax.swing.JCheckBox" binding="onlyBedCheckBox" default-binding="true">
-                        <constraints>
-                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="Only Bed"/>
-                        </properties>
-                      </component>
-                      <component id="baf59" class="javax.swing.JCheckBox" binding="bedAndBreakfastCheckBox" default-binding="true">
-                        <constraints>
-                          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="Bed and Breakfast"/>
-                        </properties>
-                      </component>
-                      <component id="d127" class="javax.swing.JCheckBox" binding="halfPensionCheckBox" default-binding="true">
-                        <constraints>
-                          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="Half Pension"/>
-                        </properties>
-                      </component>
-                      <component id="b3d83" class="javax.swing.JCheckBox" binding="fullBoardCheckBox" default-binding="true">
-                        <constraints>
-                          <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="Full Board"/>
-                        </properties>
-                      </component>
-                      <component id="6926b" class="javax.swing.JCheckBox" binding="allInclusiveCheckBox" default-binding="true">
-                        <constraints>
-                          <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="All Inclusive"/>
-                        </properties>
-                      </component>
-                      <component id="c88b9" class="javax.swing.JCheckBox" binding="ultraAllInclusiveCheckBox" default-binding="true">
-                        <constraints>
-                          <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="Ultra All Inclusive"/>
-                        </properties>
-                      </component>
-                      <component id="f88d5" class="javax.swing.JCheckBox" binding="fullCreditExceptForCheckBox" default-binding="true">
-                        <constraints>
-                          <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="Full Credit Except For Alcohol"/>
+                          <text value="Hostel Type"/>
                         </properties>
                       </component>
                       <component id="1604b" class="javax.swing.JButton" binding="btn_hostel_add">
@@ -200,6 +144,62 @@
                         </constraints>
                         <properties>
                           <text value="Add"/>
+                        </properties>
+                      </component>
+                      <component id="e4593" class="javax.swing.JRadioButton" binding="onlyBedRadioButton" default-binding="true">
+                        <constraints>
+                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Only Bed"/>
+                        </properties>
+                      </component>
+                      <component id="fdc09" class="javax.swing.JRadioButton" binding="bedAndBreakfastRadioButton" default-binding="true">
+                        <constraints>
+                          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Bed and Breakfast"/>
+                        </properties>
+                      </component>
+                      <component id="f612d" class="javax.swing.JRadioButton" binding="halfPensionRadioButton" default-binding="true">
+                        <constraints>
+                          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Half Pension"/>
+                        </properties>
+                      </component>
+                      <component id="4dc79" class="javax.swing.JRadioButton" binding="fullBoardRadioButton" default-binding="true">
+                        <constraints>
+                          <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Full Board"/>
+                        </properties>
+                      </component>
+                      <component id="8b050" class="javax.swing.JRadioButton" binding="allInclusiveRadioButton" default-binding="true">
+                        <constraints>
+                          <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="All Inclusive"/>
+                        </properties>
+                      </component>
+                      <component id="726f3" class="javax.swing.JRadioButton" binding="ultraAllInclusiveRadioButton" default-binding="true">
+                        <constraints>
+                          <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Ultra All Inclusive"/>
+                        </properties>
+                      </component>
+                      <component id="4aa6d" class="javax.swing.JRadioButton" binding="fullCreditExceptForRadioButton" default-binding="true">
+                        <constraints>
+                          <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Full Credit Except For Alcohol"/>
                         </properties>
                       </component>
                     </children>
