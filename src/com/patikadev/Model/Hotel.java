@@ -234,7 +234,35 @@ public class Hotel {
         return obj;
     }
 
-    public static ArrayList<Room> findBySearch(String search, int person, int child, String check_in, String check_out){
+    public static ArrayList<Hotel> searchHotelList(String query){
+        ArrayList<Hotel> searchHotelList = new ArrayList<>();
+        Hotel obj;
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                obj = new Hotel();
+                obj.setId(rs.getInt("id"));
+                obj.setName(rs.getString("name"));
+                obj.setCity(rs.getString("city"));
+                obj.setRegion(rs.getString("region"));
+                obj.setAddress(rs.getString("address"));
+                obj.setEmail(rs.getString("email"));
+                obj.setPhone_number(rs.getString("phone_number"));
+                obj.setStars(rs.getString("stars"));
+                obj.setHotel_features(rs.getString("hotel_features"));
+                searchHotelList.add(obj);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return searchHotelList;
+
+    }
+
+
+
+   /* public static ArrayList<Room> findBySearch(String search, int person, int child, String check_in, String check_out){
         ArrayList<Hotel> searchHotelList = new ArrayList<>();
         ArrayList<Room> searchedRoomList = new ArrayList<>();
 
@@ -273,5 +301,5 @@ public class Hotel {
             throw new RuntimeException(e);
         }
         return searchedRoomList;
-    }
+    }*/
 }

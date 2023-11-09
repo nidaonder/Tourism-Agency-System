@@ -251,7 +251,8 @@ public class DetailsHotelGUI extends JFrame{
                 Helper.showMessage("fill");
             } else {
                 int hotelID = Integer.parseInt(fld_hotel_id.getText());
-                int seasonID = 0;
+                Item seasonIdItem = (Item) cmb_season_id.getSelectedItem();
+                int seasonID = seasonIdItem.getKey();
                 int bed = Integer.parseInt(cmb_room_bed.getSelectedItem().toString());
                 String roomType = cmb_room_type.getSelectedItem().toString();
                 Item hostelTypeItem = (Item) cmb_hostel_type.getSelectedItem();
