@@ -348,6 +348,10 @@ public class AgencyEmployeeGUI extends JFrame {
         });
 
 
+        // ReservationButton;
+        reservastionButton.addActionListener(e -> {
+            ReservationGUI reservation = new ReservationGUI();
+        });
     }
 
     public static void main(String[] args) {

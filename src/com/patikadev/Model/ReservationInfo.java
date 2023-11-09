@@ -1,6 +1,6 @@
 package com.patikadev.Model;
 
-public class ReservastionInfo {
+public class ReservationInfo {
 
     private int id;
     private String clientName;
@@ -14,8 +14,8 @@ public class ReservastionInfo {
     private int childNum;
     private int totalPrice;
 
-    public ReservastionInfo(int id, String clientName, String clientPhone, String clientEmail, String clientNote,
-                            int roomId, String checkIn, String checkOut, int adultNum, int childNum, int totalPrice){
+    public ReservationInfo(int id, String clientName, String clientPhone, String clientEmail, String clientNote,
+                           int roomId, String checkIn, String checkOut, int adultNum, int childNum, int totalPrice){
         this.id = id;
         this.clientName = clientName;
         this.clientPhone = clientPhone;
