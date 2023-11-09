@@ -40,6 +40,7 @@ public class AgencyEmployeeGUI extends JFrame {
     private JPanel pnl_search;
     private JFormattedTextField fld_check_in;
     private JFormattedTextField fld_check_out;
+    private JButton reservastionButton;
     private JFormattedTextField formattedTextField1;
     private DefaultTableModel mdl_hotel_list;
     private Object[] row_hotel_list;
