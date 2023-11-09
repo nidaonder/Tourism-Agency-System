@@ -117,12 +117,11 @@ public class DetailsHotelGUI extends JFrame{
                 @Override
                 public void windowClosed(WindowEvent e) {
                     loadRoomModel();
+                    loadSeasonsCombo();
+                    loadHostelTypeCombo();
                 }
             });
         });
-
-
-        mdl_room_list = new DefaultTableModel();
 
         mdl_room_list = new DefaultTableModel(){
             @Override
@@ -136,12 +135,11 @@ public class DetailsHotelGUI extends JFrame{
 
         Object[] col_room_list = {"ID", "SEASON", "BED", "ROOM TYPE", "ADULT PRICE", "CHILD PRICE", "REMAINING ROOMS", "PROPERTIES"};
         mdl_room_list.setColumnIdentifiers(col_room_list);
-
         for (Room room : Room.getList()){
             Object[] row = new Object[col_room_list.length];
             if (room.getHotelId() == hotel.getId()){
                 row[0] = room.getId();
-                row[1] = Season.getFetch(room.getHotelId());
+                row[1] = Season.getFetch(room.getHotelId()).getSeasonStart() + " - " + Season.getFetch(room.getHotelId()).getSeasonEnd();
                 row[2] = room.getBed();
                 row[3] = room.getRoomType();
                 row[4] = room.getAdultPrice();
@@ -234,7 +232,7 @@ public class DetailsHotelGUI extends JFrame{
             }
         });
 
-        for (Room obj : Room.getList()){
+ /*       for (Room obj : Room.getList()){
             Object[] row = new Object[col_room_list.length];
             if (obj.getHotelId() == hotel.getId()){
                 row[0] = obj.getId();
@@ -244,7 +242,7 @@ public class DetailsHotelGUI extends JFrame{
                 row[4] = obj.getRemainingRooms();
                 mdl_room_list.addRow(row);
             }
-        }
+        }*/
 
         // Add Room;
         btn_room_add.addActionListener(e -> {
@@ -262,7 +260,6 @@ public class DetailsHotelGUI extends JFrame{
                 int adultPrice = Integer.parseInt(fld_adult_price.getText().toString());
                 int childPrice = Integer.parseInt(fld_child_price.getText().toString());
                 String properties = fld_properties.getText();
-                //String properties = txt_properties.toString();
                 if (Room.addRoom(hotelID, seasonID, bed, roomType, hostelType, remainingRooms, adultPrice, childPrice, properties)){
                     Helper.showMessage("done");
                     loadRoomModel();
@@ -355,15 +352,19 @@ public class DetailsHotelGUI extends JFrame{
     public void loadRoomModel() {
         DefaultTableModel clearModel = (DefaultTableModel) tbl_room_list.getModel();
         clearModel.setRowCount(0);
-        Object[] col_room_list = {"ID", "HOTEL ID", "ROOM TYPE", "BED", "REMAINING ROOMS"};
-        for (Room obj : Room.getList()){
-            if (obj.getHotelId() == hotel.getId()){
-                Object[] row = new Object[col_room_list.length];
-                row[0] = obj.getId();
-                row[1] = obj.getHotelId();
-                row[2] = obj.getRoomType();
-                row[3] = obj.getBed();
-                row[4] = obj.getRemainingRooms();
+        Object[] col_room_list = {"ID", "SEASON", "BED", "ROOM TYPE", "ADULT PRICE", "CHILD PRICE", "REMAINING ROOMS", "PROPERTIES"};
+        mdl_room_list.setColumnIdentifiers(col_room_list);
+        for (Room room : Room.getList()){
+            Object[] row = new Object[col_room_list.length];
+            if (room.getHotelId() == hotel.getId()){
+                row[0] = room.getId();
+                row[1] = Season.getFetch(room.getHotelId()).getSeasonStart() + " - " + Season.getFetch(room.getHotelId()).getSeasonEnd();
+                row[2] = room.getBed();
+                row[3] = room.getRoomType();
+                row[4] = room.getAdultPrice();
+                row[5] = room.getChildPrice();
+                row[6] = room.getRemainingRooms();
+                row[7] = room.getProperties();
                 mdl_room_list.addRow(row);
             }
         }

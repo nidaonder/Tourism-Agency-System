@@ -24,32 +24,47 @@ public class UpdateRoomGUI extends JFrame {
     private JComboBox cmb_room_type;
     private JComboBox cmb_hostel_type_id;
     private JComboBox cmb_season_id;
+    private JTextField fld_properties;
 
     public UpdateRoomGUI(Room room){
         this.room = room;
         add(wrapper);
-        setSize(300,300);
+        setSize(400,600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
         setVisible(true);
 
         fld_hotel_id.setText(String.valueOf(room.getHotelId()));
-        fld_room_type.setText(room.getRoomType());
         cmb_room_bed.setSelectedItem(room.getBed());
         fld_remaining_rooms.setText(String.valueOf(room.getRemainingRooms()));
+        cmb_room_type.setSelectedItem(room.getRoomType());
+        fld_adult_price.setText(String.valueOf(room.getAdultPrice()));
+        fld_child_price.setText(String.valueOf(room.getChildPrice()));
+        fld_properties.setText(room.getProperties());
+
         loadSeasonsCombo();
         loadHostelTypeCombo();
 
+        // Update Room
         btn_room_update.addActionListener(e -> {
-            if (Helper.isFieldEmpty(fld_hotel_id) || (Helper.isFieldEmpty(fld_room_type) || (Helper.isFieldEmpty(fld_remaining_rooms)))){
+
+            if ((Helper.isFieldEmpty(fld_remaining_rooms)) || Helper.isFieldEmpty(fld_adult_price) ||
+                    Helper.isFieldEmpty(fld_child_price) || Helper.isFieldEmpty(fld_properties)){
                 Helper.showMessage("fill");
             } else {
-                if (Room.updateRoom(room.getId(), Integer.parseInt(cmb_room_bed.getSelectedItem().toString()),
-                        fld_room_type.getText(), Integer.parseInt(cmb_hostel_type_id.getSelectedItem().toString()),
-                        Integer.parseInt(cmb_season_id.getSelectedItem().toString()),
-                        Integer.parseInt(fld_remaining_rooms.getText()), Integer.parseInt(fld_adult_price.getText()),
-                        Integer.parseInt(fld_child_price.getText()), txt_properties.getText())){
+                int id = room.getId();
+                // int hotelID = Integer.parseInt(fld_hotel_id.getText());
+                int bed = Integer.parseInt(cmb_room_bed.getSelectedItem().toString());
+                String roomType = cmb_room_type.getSelectedItem().toString();
+                Item hostelTypeItem = (Item) cmb_hostel_type_id.getSelectedItem();
+                int hostelTypeID = hostelTypeItem.getKey();
+                int seasonID = 0;
+                int remainingRooms = Integer.parseInt(fld_remaining_rooms.getText());
+                int adultPrice = Integer.parseInt(fld_adult_price.getText());
+                int childPrice = Integer.parseInt(fld_child_price.getText());
+                String properties =  fld_properties.getText();
+                if (Room.updateRoom(id, bed, roomType, hostelTypeID, seasonID, remainingRooms, adultPrice, childPrice, properties)){
                     Helper.showMessage("done");
                 }
                 dispose();
