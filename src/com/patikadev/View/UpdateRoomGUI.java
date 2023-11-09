@@ -5,8 +5,6 @@ import com.patikadev.Helper.Helper;
 import com.patikadev.Model.Room;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class UpdateRoomGUI extends JFrame {
 
@@ -17,6 +15,9 @@ public class UpdateRoomGUI extends JFrame {
     private JComboBox cmb_room_bed;
     private JTextField fld_remaining_rooms;
     private JButton btn_room_update;
+    private JTextField fld_adult_price;
+    private JTextField fld_child_price;
+    private JTextArea txt_properties;
 
     public UpdateRoomGUI(Room room){
         this.room = room;
@@ -36,7 +37,10 @@ public class UpdateRoomGUI extends JFrame {
             if (Helper.isFieldEmpty(fld_hotel_id) || (Helper.isFieldEmpty(fld_room_type) || (Helper.isFieldEmpty(fld_remaining_rooms)))){
                 Helper.showMessage("fill");
             } else {
-                if (Room.updateRoom(room.getId(), fld_room_type.getText(), Integer.parseInt(cmb_room_bed.getSelectedItem().toString()),Integer.parseInt(fld_remaining_rooms.getText()))){
+                if (Room.updateRoom(room.getId(), Integer.parseInt(cmb_room_bed.getSelectedItem().toString()),
+                        fld_room_type.getText(), Integer.parseInt(fld_remaining_rooms.getText()),
+                                Integer.parseInt(fld_adult_price.getText()), Integer.parseInt(fld_child_price.getText()),
+                        txt_properties.getText())){
                     Helper.showMessage("done");
                 }
                 dispose();

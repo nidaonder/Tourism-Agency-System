@@ -56,6 +56,10 @@ public class DetailsHotelGUI extends JFrame{
     private JScrollPane scrl_hostel_type;
     private JScrollPane scrl_seasons;
     private JTable tbl_seasons_list;
+    private JTextField fld_room_season_id;
+    private JTextField fld_adult_price;
+    private JTextField fld_child_price;
+    private JTextArea txt_properties;
     private DefaultTableModel mdl_room_list;
     private Object[] row_room_list;
     private JPopupMenu roomMenu;
@@ -228,16 +232,24 @@ public class DetailsHotelGUI extends JFrame{
                 Helper.showMessage("fill");
             } else {
                 int hotelID = Integer.parseInt(fld_hotel_id.getText());
-                String roomType = fld_room_type.getText();
+                int seasonID = Integer.parseInt(fld_room_season_id.getText());
                 int bed = Integer.parseInt(cmb_room_bed.getSelectedItem().toString());
+                String roomType = fld_room_type.getText();
                 int remainingRooms = Integer.parseInt(fld_remaining_rooms.getText());
-                if (Room.addRoom(hotelID, roomType, bed, remainingRooms)){
+                int adultPrice = Integer.parseInt(fld_adult_price.getText());
+                int childPrice = Integer.parseInt(fld_child_price.getText());
+                String properties = txt_properties.toString();
+                if (Room.addRoom(hotelID, seasonID, bed, roomType, remainingRooms, adultPrice, childPrice, properties)){
                     Helper.showMessage("done");
                     loadRoomModel();
                     fld_hotel_id.setText(String.valueOf(hotel.getId()));
-                    fld_room_type.setText(null);
+                    fld_room_season_id.setText(null);
                     cmb_room_bed.setSelectedItem(null);
+                    fld_room_type.setText(null);
                     fld_remaining_rooms.setText(null);
+                    fld_adult_price.setText(null);
+                    fld_child_price.setText(null);
+                    txt_properties.setText(null);
                 }
             }
         });
