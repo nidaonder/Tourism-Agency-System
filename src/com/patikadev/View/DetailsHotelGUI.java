@@ -2,6 +2,7 @@ package com.patikadev.View;
 
 import com.patikadev.Helper.Config;
 import com.patikadev.Helper.Helper;
+import com.patikadev.Helper.Item;
 import com.patikadev.Model.HostelType;
 import com.patikadev.Model.Hotel;
 import com.patikadev.Model.Room;
@@ -60,6 +61,8 @@ public class DetailsHotelGUI extends JFrame{
     private JTextField fld_adult_price;
     private JTextField fld_child_price;
     private JTextArea txt_properties;
+    private JComboBox cmb_season_id;
+    private JComboBox cmb_room_type;
     private DefaultTableModel mdl_room_list;
     private Object[] row_room_list;
     private JPopupMenu roomMenu;
@@ -129,12 +132,29 @@ public class DetailsHotelGUI extends JFrame{
             }
         };
 
-        Object[] col_room_list = {"ID", "HOTEL ID", "ROOM TYPE", "BED", "REMAINING ROOMS"};
+        Object[] col_room_list = {"ID", "SEASON", "BED", "ROOM TYPE", "ADULT PRICE", "CHILD PRICE", "REMAINING ROOMS", "PROPERTIES"};
         mdl_room_list.setColumnIdentifiers(col_room_list);
+
+        for (Room room : Room.getList()){
+            Object[] row = new Object[col_room_list.length];
+            if (room.getHotelId() == hotel.getId()){
+                row[0] = room.getId();
+                row[1] = Season.getFetch(room.getHotelId());
+                row[2] = room.getBed();
+                row[3] = room.getRoomType();
+                row[4] = room.getAdultPrice();
+                row[5] = room.getChildPrice();
+                row[6] = room.getRemainingRooms();
+                row[7] = room.getProperties();
+                mdl_room_list.addRow(row);
+            }
+        }
 
         tbl_room_list.setModel(mdl_room_list);
         tbl_room_list.setComponentPopupMenu(roomMenu);
         tbl_room_list.getTableHeader().setReorderingAllowed(false);
+        loadSeasonsCombo();
+        loadHostelTypeCombo();
 
         tbl_room_list.addMouseListener(new MouseAdapter() {
             @Override
@@ -203,9 +223,7 @@ public class DetailsHotelGUI extends JFrame{
         tbl_seasons_list.getTableHeader().setReorderingAllowed(false);
 
 
-
-
-
+        // Select Room ID
         tbl_room_list.getSelectionModel().addListSelectionListener(e -> {
             try{
                 String select_room_id = tbl_room_list.getValueAt(tbl_room_list.getSelectedRow(), 0).toString();
@@ -232,9 +250,9 @@ public class DetailsHotelGUI extends JFrame{
                 Helper.showMessage("fill");
             } else {
                 int hotelID = Integer.parseInt(fld_hotel_id.getText());
-                int seasonID = Integer.parseInt(fld_room_season_id.getText());
+                int seasonID = Integer.parseInt(cmb_season_id.getSelectedItem().toString());
                 int bed = Integer.parseInt(cmb_room_bed.getSelectedItem().toString());
-                String roomType = fld_room_type.getText();
+                String roomType = cmb_room_type.getSelectedItem().toString();
                 int remainingRooms = Integer.parseInt(fld_remaining_rooms.getText());
                 int adultPrice = Integer.parseInt(fld_adult_price.getText());
                 int childPrice = Integer.parseInt(fld_child_price.getText());
@@ -243,9 +261,9 @@ public class DetailsHotelGUI extends JFrame{
                     Helper.showMessage("done");
                     loadRoomModel();
                     fld_hotel_id.setText(String.valueOf(hotel.getId()));
-                    fld_room_season_id.setText(null);
+                    cmb_season_id.setSelectedItem(null);
                     cmb_room_bed.setSelectedItem(null);
-                    fld_room_type.setText(null);
+                    cmb_room_type.setSelectedItem(null);
                     fld_remaining_rooms.setText(null);
                     fld_adult_price.setText(null);
                     fld_child_price.setText(null);
@@ -366,6 +384,24 @@ public class DetailsHotelGUI extends JFrame{
                 row[0] = hotel.getName();
                 row[1] = season.getSeasonStart() + " - " + season.getSeasonEnd();
                 mdl_seasons.addRow(row);
+            }
+        }
+    }
+
+    public void loadSeasonsCombo(){
+        cmb_season_id.removeAllItems();
+        for (Season season : Season.getList()){
+            if (season.getHotelId() == hotel.getId()){
+                cmb_season_id.addItem(new Item(season.getId(), season.getSeasonStart()) + " - " + season.getSeasonEnd());
+            }
+        }
+    }
+
+    public void loadHostelTypeCombo(){
+        cmb_room_type.removeAllItems();
+        for (HostelType hostelType : HostelType.getHostelType()){
+            if (hostelType.getHotel_id() == hotel.getId()){
+                cmb_room_type.addItem(new Item(hostelType.getId(), hostelType.getType()));
             }
         }
     }
