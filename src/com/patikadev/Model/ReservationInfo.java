@@ -1,5 +1,7 @@
 package com.patikadev.Model;
 
+import com.patikadev.View.ReservationGUI;
+
 public class ReservationInfo {
 
     private int id;
@@ -14,6 +16,10 @@ public class ReservationInfo {
     private int childNum;
     private int totalPrice;
 
+    private Room room;
+
+    public ReservationInfo(){}
+
     public ReservationInfo(int id, String clientName, String clientPhone, String clientEmail, String clientNote,
                            int roomId, String checkIn, String checkOut, int adultNum, int childNum, int totalPrice){
         this.id = id;
@@ -27,6 +33,7 @@ public class ReservationInfo {
         this.adultNum = adultNum;
         this.childNum = childNum;
         this.totalPrice = totalPrice;
+        this.room = Room.getFetch(roomId);
     }
 
     public int getId() {
