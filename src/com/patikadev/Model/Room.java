@@ -14,6 +14,7 @@ public class Room {
     private int seasonId;
     private int bed;
     private String roomType;
+    private int hostelTypeID;
     private int remainingRooms;
     private int adultPrice;
     private int childPrice;
@@ -24,18 +25,27 @@ public class Room {
 
     public Room(){}
 
-    public Room(int id, int hotelId, int seasonId, int bed,  String roomType, int remainingRooms, int adultPrice,
+    public Room(int id, int hotelId, int seasonId, int bed,  String roomType, int hostelTypeID, int remainingRooms, int adultPrice,
                 int childPrice, String properties) {
         this.id = id;
         this.hotelId = hotelId;
         this.seasonId = seasonId;
         this.bed = bed;
         this.roomType = roomType;
+        this.hostelTypeID = hostelTypeID;
         this.remainingRooms = remainingRooms;
         this.adultPrice = adultPrice;
         this.childPrice = childPrice;
         this.properties = properties;
         this.hotel = Hotel.getFetch(hotelId);
+    }
+
+    public int getHostelTypeID() {
+        return hostelTypeID;
+    }
+
+    public void setHostelTypeID(int hostelTypeID) {
+        this.hostelTypeID = hostelTypeID;
     }
 
     public int getSeasonId() {
@@ -131,7 +141,8 @@ public class Room {
                 obj.setHotelId(rs.getInt("hotel_id"));
                 obj.setSeasonId(rs.getInt("season_id"));
                 obj.setBed(rs.getInt("bed"));
-                obj.setRoomType(rs.getString("type"));
+                obj.setRoomType(rs.getString("room_type"));
+                obj.setHostelTypeID(rs.getInt("hostel_type_id"));
                 obj.setRemainingRooms(rs.getInt("remaining_rooms"));
                 obj.setAdultPrice(rs.getInt("adult_price"));
                 obj.setChildPrice(rs.getInt("child_price"));
@@ -144,20 +155,21 @@ public class Room {
         return roomList;
     }
 
-    public static boolean addRoom(int hotelId, int seasonId, int bed, String roomType, int remainingRooms,
+    public static boolean addRoom(int hotelId, int seasonId, int bed, String roomType, int hostelTypeID, int remainingRooms,
                                   int adultPrice, int childPrice, String properties){
-        String query = "INSERT INTO room (hotel_id, season_id, bed, type, remaining_rooms, adult_price," +
-                " child_price, properties ) VALUES (?, ?, ? ,?, ?, ?, ? , ?)";
+        String query = "INSERT INTO room (hotel_id, season_id, bed, room_type, hostel_type_id, remaining_rooms, adult_price," +
+                " child_price, properties ) VALUES (?, ?, ? ,?, ?, ?, ? , ?, ?)";
         try {
             PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
             pr.setInt(1, hotelId);
             pr.setInt(2, seasonId);
             pr.setInt(3, bed);
             pr.setString(4, roomType);
-            pr.setInt(5, remainingRooms);
-            pr.setInt(6, adultPrice);
-            pr.setInt(7, childPrice);
-            pr.setString(8, properties);
+            pr.setInt(5, hostelTypeID);
+            pr.setInt(6, remainingRooms);
+            pr.setInt(7, adultPrice);
+            pr.setInt(8, childPrice);
+            pr.setString(9, properties);
             return pr.executeUpdate() != -1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -175,19 +187,21 @@ public class Room {
         }
     }
 
-    public static boolean updateRoom(int id, int bed, String roomType, int remainingRooms, int adultPrice,
+    public static boolean updateRoom(int id, int bed, String roomType, int hostelTypeID, int seasonId, int remainingRooms, int adultPrice,
                                      int childPrice, String properties){
-        String query = "UPDATE room SET bed = ?, type = ?, remaining_rooms = ?, adult_price = ?, child_price = ?," +
-                " properties = ? WHERE id = ?";
+        String query = "UPDATE room SET bed = ?, room_type = ?, hostel_type_id = ?, season_id = ?, remaining_rooms = ?, " +
+                "adult_price = ?, child_price = ?, properties = ? WHERE id = ?";
         try {
             PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
             pr.setInt(1, bed);
             pr.setString(2, roomType);
-            pr.setInt(3, remainingRooms);
-            pr.setInt(4, adultPrice);
-            pr.setInt(5, childPrice);
-            pr.setString(6, properties);
-            pr.setInt(7, id);
+            pr.setInt(3, hostelTypeID);
+            pr.setInt(4, seasonId);
+            pr.setInt(5, remainingRooms);
+            pr.setInt(6, adultPrice);
+            pr.setInt(7, childPrice);
+            pr.setString(8, properties);
+            pr.setInt(9, id);
             return pr.executeUpdate() != -1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -203,7 +217,8 @@ public class Room {
             ResultSet rs = pr.executeQuery();
             if (rs.next()){
                 obj = new Room(rs.getInt("id"), rs.getInt("hotel_id"),
-                        rs.getInt("season_id"), rs.getInt("bed"), rs.getString("type"),
+                        rs.getInt("season_id"), rs.getInt("bed"),
+                        rs.getString("room_type"), rs.getInt("hostel_type_id"),
                         rs.getInt("remaining_rooms"), rs.getInt("adult_price"),
                         rs.getInt("child_price"), rs.getString("properties"));
             }

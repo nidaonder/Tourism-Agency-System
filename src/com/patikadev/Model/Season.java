@@ -116,6 +116,28 @@ public class Season {
         return obj;
     }
 
+    public static ArrayList<Season> getListByHotelId(int id){
+        ArrayList<Season> seasonList = new ArrayList<>();
+        Season obj;
+        String query = "SELECT * FROM season WHERE hotel_id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, id);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                obj = new Season();
+                obj.setId(rs.getInt("id"));
+                obj.setHotelId(rs.getInt("hotel_id"));
+                obj.setSeasonStart(rs.getString("season_start"));
+                obj.setSeasonEnd(rs.getString("season_end"));
+                seasonList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return seasonList;
+    }
+
 
    /*
     public static boolean isDateWithinRange(String check_in, String check_out, int hotel_id){

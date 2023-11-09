@@ -86,5 +86,25 @@ public class HostelType {
         }
         return hostelTypeList;
     }
+    public static ArrayList<HostelType> getListByHotelId(int id){
+        ArrayList<HostelType> hostelTypeList = new ArrayList<>();
+        HostelType obj;
+        String query = "SELECT * FROM hostel_type WHERE hotel_id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, id);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                obj = new HostelType();
+                obj.setId(rs.getInt("id"));
+                obj.setHotel_id(rs.getInt("hotel_id"));
+                obj.setType(rs.getString("type"));
+                hostelTypeList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hostelTypeList;
+    }
 
 }

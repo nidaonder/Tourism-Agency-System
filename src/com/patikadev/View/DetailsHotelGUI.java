@@ -62,7 +62,9 @@ public class DetailsHotelGUI extends JFrame{
     private JTextField fld_child_price;
     private JTextArea txt_properties;
     private JComboBox cmb_season_id;
+    private JComboBox cmb_hostel_type;
     private JComboBox cmb_room_type;
+    private JTextField fld_properties;
     private DefaultTableModel mdl_room_list;
     private Object[] row_room_list;
     private JPopupMenu roomMenu;
@@ -246,28 +248,33 @@ public class DetailsHotelGUI extends JFrame{
 
         // Add Room;
         btn_room_add.addActionListener(e -> {
-            if (Helper.isFieldEmpty(fld_hotel_id) || Helper.isFieldEmpty(fld_room_type) || Helper.isFieldEmpty(fld_remaining_rooms)){
+            if (Helper.isFieldEmpty(fld_remaining_rooms) || Helper.isFieldEmpty(fld_adult_price) ||
+                    Helper.isFieldEmpty(fld_child_price)){
                 Helper.showMessage("fill");
             } else {
                 int hotelID = Integer.parseInt(fld_hotel_id.getText());
-                int seasonID = Integer.parseInt(cmb_season_id.getSelectedItem().toString());
+                int seasonID = 0;
                 int bed = Integer.parseInt(cmb_room_bed.getSelectedItem().toString());
                 String roomType = cmb_room_type.getSelectedItem().toString();
-                int remainingRooms = Integer.parseInt(fld_remaining_rooms.getText());
-                int adultPrice = Integer.parseInt(fld_adult_price.getText());
-                int childPrice = Integer.parseInt(fld_child_price.getText());
-                String properties = txt_properties.toString();
-                if (Room.addRoom(hotelID, seasonID, bed, roomType, remainingRooms, adultPrice, childPrice, properties)){
+                Item hostelTypeItem = (Item) cmb_hostel_type.getSelectedItem();
+                int hostelType = hostelTypeItem.getKey();
+                int remainingRooms = Integer.parseInt(fld_remaining_rooms.getText().toString());
+                int adultPrice = Integer.parseInt(fld_adult_price.getText().toString());
+                int childPrice = Integer.parseInt(fld_child_price.getText().toString());
+                String properties = fld_properties.getText();
+                //String properties = txt_properties.toString();
+                if (Room.addRoom(hotelID, seasonID, bed, roomType, hostelType, remainingRooms, adultPrice, childPrice, properties)){
                     Helper.showMessage("done");
                     loadRoomModel();
                     fld_hotel_id.setText(String.valueOf(hotel.getId()));
                     cmb_season_id.setSelectedItem(null);
                     cmb_room_bed.setSelectedItem(null);
                     cmb_room_type.setSelectedItem(null);
+                    cmb_hostel_type.setSelectedItem(null);
                     fld_remaining_rooms.setText(null);
                     fld_adult_price.setText(null);
                     fld_child_price.setText(null);
-                    txt_properties.setText(null);
+                    fld_properties.setText(null);
                 }
             }
         });
@@ -320,6 +327,7 @@ public class DetailsHotelGUI extends JFrame{
                 }
                 Helper.showMessage("done");
                 loadHostelTypeModel();
+                loadHostelTypeCombo();
 
                 onlyBedRadioButton.setSelected(false);
                 BBRadioButton.setSelected(false);
@@ -339,6 +347,7 @@ public class DetailsHotelGUI extends JFrame{
                 Season.addSeason(hotel.getId(), fld_season_start.getText(), fld_season_end.getText());
                 Helper.showMessage("done");
                 loadSeasonsModel();
+                loadSeasonsCombo();
             }
         });
     }
@@ -390,21 +399,44 @@ public class DetailsHotelGUI extends JFrame{
 
     public void loadSeasonsCombo(){
         cmb_season_id.removeAllItems();
-        for (Season season : Season.getList()){
-            if (season.getHotelId() == hotel.getId()){
-                cmb_season_id.addItem(new Item(season.getId(), season.getSeasonStart()) + " - " + season.getSeasonEnd());
+        for (Season obj : Season.getList()){
+            if (obj.getHotelId() == hotel.getId()){
+                String seasonLabel = obj.getSeasonStart() + " - " + obj.getSeasonEnd();
+                cmb_season_id.addItem(new Item(obj.getId(), seasonLabel));
+            }
+        }
+        if (cmb_season_id.getSelectedItem() != null){
+            Item seasonItem = (Item) cmb_season_id.getSelectedItem();
+            for (Season season : Season.getListByHotelId(seasonItem.getKey())){
+                String seasonLabel = season.getSeasonStart() + " - " + season.getSeasonEnd();
+                cmb_season_id.addItem(new Item(season.getId(), seasonLabel));
             }
         }
     }
 
     public void loadHostelTypeCombo(){
-        cmb_room_type.removeAllItems();
-        for (HostelType hostelType : HostelType.getHostelType()){
-            if (hostelType.getHotel_id() == hotel.getId()){
-                cmb_room_type.addItem(new Item(hostelType.getId(), hostelType.getType()));
+        cmb_hostel_type.removeAllItems();
+        for (HostelType obj : HostelType.getHostelType()){
+            if (obj.getHotel_id() == hotel.getId()){
+                cmb_hostel_type.addItem(new Item(obj.getId(), obj.getType()));
+            }
+        }
+        if (cmb_hostel_type.getSelectedItem() != null){
+            Item hostelTypeItem = (Item) cmb_hostel_type.getSelectedItem();
+            for (HostelType hostelType : HostelType.getListByHotelId(hostelTypeItem.getKey())){
+                cmb_hostel_type.addItem(new Item(hostelType.getId(), hostelType.getType()));
             }
         }
     }
+
+   /* public void loadHostelTypeCombo(){
+        Item hostelTypeItem = (Item) cmb_hostel_type.getSelectedItem();
+        cmb_hostel_type.removeAllItems();
+        cmb_hostel_type.addItem(new Item(0, null));
+        for (HostelType obj : HostelType.getListByHotelId(hostelTypeItem.getKey())){
+            cmb_hostel_type.addItem(new Item(obj.getId(), obj.getType()));
+        }
+    }*/
 
     // Season date;
     private void createUIComponents() throws ParseException {
