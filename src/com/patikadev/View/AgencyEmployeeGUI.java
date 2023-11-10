@@ -272,9 +272,14 @@ public class AgencyEmployeeGUI extends JFrame {
 
         // ReservationButton;
         reservastionButton.addActionListener(e -> {
-            ReservationGUI reservation = new ReservationGUI();
+            int select_room_id = Integer.parseInt(tbl_search_list.getValueAt(tbl_search_list.getSelectedRow(), 0).toString());
 
+            int adultNum = Integer.parseInt(cmb_person.getSelectedItem().toString());
+            int childNum = Integer.parseInt(cmb_child.getSelectedItem().toString());
+            String checkIn = fld_check_in.getText();
+            String checkOut = fld_check_out.getText();
 
+            ReservationGUI reservation = new ReservationGUI(Room.getFetch(select_room_id), adultNum, childNum, checkIn, checkOut);
         });
     }
 

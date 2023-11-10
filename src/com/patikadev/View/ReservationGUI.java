@@ -1,10 +1,21 @@
 package com.patikadev.View;
 
 import com.patikadev.Helper.Config;
+import com.patikadev.Model.Hotel;
+import com.patikadev.Model.Room;
 
 import javax.swing.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class ReservationGUI extends JFrame{
+
+    private int adultNum;
+    private int childNum;
+    private String checkIn;
+    private String checkOut;
     private JPanel wrapper;
     private JPanel pnl_top;
     private JPanel pnl_bottom;
@@ -27,9 +38,47 @@ public class ReservationGUI extends JFrame{
     private JTextField fld_client_mail;
     private JButton createReservationButton;
     private JTextField fld_reservation_note;
+    private Room room;
 
+    public int getAdultNum() {
+        return adultNum;
+    }
 
-    public ReservationGUI(){
+    public void setAdultNum(int adultNum) {
+        this.adultNum = adultNum;
+    }
+
+    public int getChildNum() {
+        return childNum;
+    }
+
+    public void setChildNum(int childNum) {
+        this.childNum = childNum;
+    }
+
+    public String getCheckIn() {
+        return checkIn;
+    }
+
+    public void setCheckIn(String checkIn) {
+        this.checkIn = checkIn;
+    }
+
+    public String getCheckOut() {
+        return checkOut;
+    }
+
+    public void setCheckOut(String checkOut) {
+        this.checkOut = checkOut;
+    }
+
+    public ReservationGUI(Room room, int adultNum, int childNum, String checkIn, String checkOut){
+
+        this.room = room;
+        this.adultNum = adultNum;
+        this.childNum = childNum;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
 
         add(wrapper);
         setSize(1000,800);
@@ -37,6 +86,37 @@ public class ReservationGUI extends JFrame{
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
         setVisible(true);
+
+        fld_hotel_name.setText(Hotel.getFetch(room.getHotelId()).getName());
+        fld_hotel_address.setText(Hotel.getFetch(room.getHotelId()).getAddress());
+        fld_phone_number.setText(Hotel.getFetch(room.getHotelId()).getPhone_number());
+        fld_hotel_features.setText(Hotel.getFetch(room.getHotelId()).getHotel_features());
+        fld_room_type.setText(room.getRoomType());
+        fld_room_properties.setText(room.getProperties());
+        fld_adult_num.setText(String.valueOf(this.adultNum));
+        fld_child_num.setText(String.valueOf(this.childNum));
+        fld_check_in.setText(this.checkIn);
+        fld_check_out.setText(this.checkOut);
+        int oneNightPrice = (adultNum * room.getAdultPrice()) + (childNum * room.getChildPrice());
+        fld_one_night.setText(String.valueOf(oneNightPrice));
+
+        Date checkInDate = null;
+        Date checkOutDate = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            checkInDate = formatter.parse(checkIn);
+            checkOutDate = formatter.parse(checkOut);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        long diffInMillies = Math.abs(checkOutDate.getTime() - checkInDate.getTime());
+        long daysBetween = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        System.out.println("Gün sayısı = " + daysBetween);
+
+        long totalPrice = daysBetween * oneNightPrice;
+        fld_total_price.setText(String.valueOf(totalPrice));
+
+
     }
 
 }
