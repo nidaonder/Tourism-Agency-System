@@ -250,9 +250,35 @@ public class AgencyEmployeeGUI extends JFrame {
 
         // ReservationList Table;
         mdl_reservation_list = new DefaultTableModel(){
-
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if (column >= 0){
+                    return false;
+                }
+                return super.isCellEditable(row, column);
+            }
         };
 
+        Object[] col_reservation_list = {"ID", "NAME-SURNAME", "PHONE", "E-MAIL", "HOTEL", "CHECK-IN", "CHECK-OUT",
+                "ADULT", "CHILD", "CLIENT NOTE", "TOTAL PRİCE"};
+        mdl_reservation_list.setColumnIdentifiers(col_reservation_list);
+        for (ReservationInfo reservation : ReservationInfo.getList()){
+            Object[] row = new Object[col_reservation_list.length];
+            row[0] = reservation.getId();
+            row[1] = reservation.getClientName();
+            row[2] = reservation.getClientPhone();
+            row[3] = reservation.getClientEmail();
+            row[4] = Hotel.getFetch(Room.getFetch(reservation.getRoomId()).getHotelId()).getName();
+            row[5] = reservation.getCheckIn();
+            row[6] = reservation.getCheckOut();
+            row[7] = reservation.getAdultNum();
+            row[8] = reservation.getChildNum();
+            row[9] = reservation.getClientNote();
+            row[10] = reservation.getTotalPrice();
+            mdl_reservation_list.addRow(row);
+        }
+        tbl_reservation_list.setModel(mdl_reservation_list);
+        tbl_reservation_list.getTableHeader().setReorderingAllowed(false);
 
 
 
@@ -306,6 +332,7 @@ public class AgencyEmployeeGUI extends JFrame {
             String checkOut = fld_check_out.getText();
 
             ReservationGUI reservation = new ReservationGUI(Room.getFetch(select_room_id), adultNum, childNum, checkIn, checkOut);
+            loadReservationModel();
         });
     }
 
@@ -342,7 +369,7 @@ public class AgencyEmployeeGUI extends JFrame {
         }
     }
 
-    private void loadSearchModel(ArrayList<Room> rooms){
+    public void loadSearchModel(ArrayList<Room> rooms){
         DefaultTableModel clearModel = (DefaultTableModel) tbl_search_list.getModel();
         clearModel.setRowCount(0);
         Object[] col_search_list = {"ID", "Hotel Name", "Adress", "Room Type", "Hostel Type", "Season", "Properties",
@@ -364,6 +391,31 @@ public class AgencyEmployeeGUI extends JFrame {
         }
         tbl_search_list.setModel(mdl_search_list);
         tbl_search_list.getTableHeader().setReorderingAllowed(false);
+    }
+
+    public void loadReservationModel(){
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_reservation_list.getModel();
+        clearModel.setRowCount(0);
+        Object[] col_reservation_list = {"ID", "NAME-SURNAME", "PHONE", "E-MAIL", "HOTEL", "CHECK-IN", "CHECK-OUT",
+                "ADULT", "CHILD", "CLIENT NOTE", "TOTAL PRİCE"};
+        mdl_reservation_list.setColumnIdentifiers(col_reservation_list);
+        for (ReservationInfo reservation : ReservationInfo.getList()){
+            Object[] row = new Object[col_reservation_list.length];
+            row[0] = reservation.getId();
+            row[1] = reservation.getClientName();
+            row[2] = reservation.getClientPhone();
+            row[3] = reservation.getClientEmail();
+            row[4] = Hotel.getFetch(Room.getFetch(reservation.getRoomId()).getHotelId()).getName();
+            row[5] = reservation.getCheckIn();
+            row[6] = reservation.getCheckOut();
+            row[7] = reservation.getAdultNum();
+            row[8] = reservation.getChildNum();
+            row[9] = reservation.getClientNote();
+            row[10] = reservation.getTotalPrice();
+            mdl_reservation_list.addRow(row);
+        }
+        tbl_reservation_list.setModel(mdl_reservation_list);
+        tbl_reservation_list.getTableHeader().setReorderingAllowed(false);
     }
 
     private void createUIComponents() throws ParseException {

@@ -141,10 +141,6 @@ public class ReservationGUI extends JFrame{
                         clientCheckIn, clientCheckOut, clientAdult, clientChildNum, totalPrice)){
                     Helper.showMessage("done");
                 }
-                /*fld_client_name.setText(null);
-                fld_client_phone.setText(null);
-                fld_client_mail.setText(null);
-                fld_reservation_note.setText(null);*/
                 dispose();
             }
         });

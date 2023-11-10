@@ -3,8 +3,12 @@ package com.patikadev.Model;
 import com.patikadev.Helper.DBConnector;
 import com.patikadev.View.ReservationGUI;
 
+import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class ReservationInfo {
 
@@ -126,6 +130,34 @@ public class ReservationInfo {
 
     public void setTotalPrice(long totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public static ArrayList<ReservationInfo> getList(){
+        ArrayList<ReservationInfo> reservationList = new ArrayList<>();
+        ReservationInfo obj;
+        String query = "SELECT * FROM reservation_info";
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()){
+                obj = new ReservationInfo();
+                obj.setId(rs.getInt("id"));
+                obj.setClientName(rs.getString("client_name"));
+                obj.setClientPhone(rs.getString("client_phone"));
+                obj.setClientEmail(rs.getString("client_email"));
+                obj.setClientNote(rs.getString("client_note"));
+                obj.setRoomId(rs.getInt("room_id"));
+                obj.setCheckIn(rs.getString("check_in"));
+                obj.setCheckOut(rs.getString("check_out"));
+                obj.setAdultNum(rs.getInt("adult_num"));
+                obj.setChildNum(rs.getInt("child_num"));
+                obj.setTotalPrice(rs.getInt("total_price"));
+                reservationList.add(obj);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return reservationList;
     }
 
     public static boolean addReservation(String clientName, String clientPhone, String clientEmail, String clientNote,
