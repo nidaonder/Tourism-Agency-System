@@ -5,6 +5,8 @@ import com.patikadev.Helper.Helper;
 import com.patikadev.Model.*;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
@@ -280,6 +282,15 @@ public class AgencyEmployeeGUI extends JFrame {
         tbl_reservation_list.setModel(mdl_reservation_list);
         tbl_reservation_list.getTableHeader().setReorderingAllowed(false);
 
+        // Select Reservation ID;
+        tbl_reservation_list.getSelectionModel().addListSelectionListener(e -> {
+            try {
+                String select_reservation_id = tbl_reservation_list.getValueAt(tbl_reservation_list.getSelectedRow(), 0).toString();
+                fld_reservation_id.setText(select_reservation_id);
+            } catch(Exception excepion){
+            }
+        });
+
 
 
         // Add Hotel button;
@@ -333,6 +344,22 @@ public class AgencyEmployeeGUI extends JFrame {
 
             ReservationGUI reservation = new ReservationGUI(Room.getFetch(select_room_id), adultNum, childNum, checkIn, checkOut);
             loadReservationModel();
+        });
+
+        // Delete Reservation
+        btn_reservation_delete.addActionListener(e -> {
+            if (Helper.isFieldEmpty(fld_reservation_id)){
+                Helper.showMessage("fill");
+            } else {
+                int select_reservation_id = Integer.parseInt(fld_reservation_id.getText());
+                if (ReservationInfo.deleteReservation(select_reservation_id)){
+                    Helper.showMessage("done");
+                    loadReservationModel();
+                } else {
+                    Helper.showMessage("error");
+                }
+            }
+            fld_reservation_id.setText(null);
         });
     }
 

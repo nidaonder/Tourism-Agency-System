@@ -181,4 +181,15 @@ public class ReservationInfo {
             throw new RuntimeException(e);
         }
     }
+
+    public static boolean deleteReservation(int id){
+        String query = "DELETE FROM reservation_info WHERE id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, id);
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
