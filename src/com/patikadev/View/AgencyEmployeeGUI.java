@@ -66,6 +66,8 @@ public class AgencyEmployeeGUI extends JFrame {
     private Object[] row_search_list;
     private String checkIn;
     private String checkOut;
+    private DefaultTableModel mdl_reservation_list;
+    private Object[] col_reservation_list;
 
 
     private final AgencyEmployee agencyEmployee;
@@ -245,6 +247,14 @@ public class AgencyEmployeeGUI extends JFrame {
             }
             loadSearchModel(searchingRoomList);
         });
+
+        // ReservationList Table;
+        mdl_reservation_list = new DefaultTableModel(){
+
+        };
+
+
+
 
         // Add Hotel button;
         btn_add_hotel.addActionListener(e -> {
