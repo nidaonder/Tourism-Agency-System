@@ -1,6 +1,10 @@
 package com.patikadev.Model;
 
+import com.patikadev.Helper.DBConnector;
 import com.patikadev.View.ReservationGUI;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class ReservationInfo {
 
@@ -14,14 +18,14 @@ public class ReservationInfo {
     private String checkOut;
     private int adultNum;
     private int childNum;
-    private int totalPrice;
+    private long totalPrice;
 
     private Room room;
 
     public ReservationInfo(){}
 
     public ReservationInfo(int id, String clientName, String clientPhone, String clientEmail, String clientNote,
-                           int roomId, String checkIn, String checkOut, int adultNum, int childNum, int totalPrice){
+                           int roomId, String checkIn, String checkOut, int adultNum, int childNum, long totalPrice){
         this.id = id;
         this.clientName = clientName;
         this.clientPhone = clientPhone;
@@ -116,11 +120,33 @@ public class ReservationInfo {
         this.childNum = childNum;
     }
 
-    public int getTotalPrice() {
+    public long getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(long totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public static boolean addReservation(String clientName, String clientPhone, String clientEmail, String clientNote,
+                                         int roomId, String checkIn, String checkOut, int adultNum, int childNum, long totalPrice){
+        String query = "INSERT INTO reservation_info (client_name, client_phone, client_email, client_note, room_id, " +
+                "check_in, check_out, adult_num, child_num, total_price) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setString(1, clientName);
+            pr.setString(2, clientPhone);
+            pr.setString(3, clientEmail);
+            pr.setString(4, clientNote);
+            pr.setInt(5, roomId);
+            pr.setString(6, checkIn);
+            pr.setString(7, checkOut);
+            pr.setInt(8, adultNum);
+            pr.setInt(9, childNum);
+            pr.setLong(10, totalPrice);
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

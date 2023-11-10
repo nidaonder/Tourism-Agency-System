@@ -1,10 +1,15 @@
 package com.patikadev.View;
 
 import com.patikadev.Helper.Config;
+import com.patikadev.Helper.Helper;
 import com.patikadev.Model.Hotel;
+import com.patikadev.Model.ReservationInfo;
 import com.patikadev.Model.Room;
+import com.sun.net.httpserver.Headers;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -116,7 +121,34 @@ public class ReservationGUI extends JFrame{
         long totalPrice = daysBetween * oneNightPrice;
         fld_total_price.setText(String.valueOf(totalPrice));
 
+        // Create Reservation
+        createReservationButton.addActionListener(e -> {
+            if (Helper.isFieldEmpty(fld_client_name) || Helper.isFieldEmpty(fld_client_phone) ||
+                    Helper.isFieldEmpty(fld_client_mail) || Helper.isFieldEmpty(fld_reservation_note)){
+                Helper.showMessage("fill");
+            } else {
+                String clientName = fld_client_name.getText();
+                String clientPhone = fld_client_phone.getText();
+                String clientEmail = fld_client_mail.getText();
+                String clientNote = fld_reservation_note.getText();
+                int clientRoomId = room.getId();
+                String clientCheckIn = this.checkIn;
+                String clientCheckOut = this.checkOut;
+                int clientAdult = this.adultNum;
+                int clientChildNum = this.childNum;
+                long clientTotalPrice = totalPrice;
 
+                if (ReservationInfo.addReservation(clientName, clientPhone, clientEmail, clientNote, clientRoomId,
+                        clientCheckIn, clientCheckOut, clientAdult, clientChildNum, totalPrice)){
+                    Helper.showMessage("done");
+                }
+                /*fld_client_name.setText(null);
+                fld_client_phone.setText(null);
+                fld_client_mail.setText(null);
+                fld_reservation_note.setText(null);*/
+                dispose();
+            }
+        });
     }
 
 }
