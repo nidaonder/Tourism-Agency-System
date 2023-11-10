@@ -5,8 +5,6 @@ import com.patikadev.Helper.Helper;
 import com.patikadev.Model.*;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
@@ -52,14 +50,13 @@ public class AgencyEmployeeGUI extends JFrame {
     private JTextField fld_client_email;
     private JTextField fld_client_note;
     private JComboBox cmb_client_room;
-    private JTextField fld_client_check_in;
-    private JTextField fld_client_check_out;
     private JComboBox cmb_client_adult;
     private JComboBox cmb_client_child;
     private JButton btn_reservation_update;
     private JTextField fld_reservation_id;
     private JButton btn_reservation_delete;
-    private JFormattedTextField formattedTextField1;
+    private JFormattedTextField fld_client_check_in;
+    private JFormattedTextField fld_client_check_out;
     private DefaultTableModel mdl_hotel_list;
     private Object[] row_hotel_list;
     private Object[] col_hotel_list;
@@ -282,12 +279,26 @@ public class AgencyEmployeeGUI extends JFrame {
         tbl_reservation_list.setModel(mdl_reservation_list);
         tbl_reservation_list.getTableHeader().setReorderingAllowed(false);
 
+
+
+
+
         // Select Reservation ID;
         tbl_reservation_list.getSelectionModel().addListSelectionListener(e -> {
             try {
                 String select_reservation_id = tbl_reservation_list.getValueAt(tbl_reservation_list.getSelectedRow(), 0).toString();
                 fld_reservation_id.setText(select_reservation_id);
-            } catch(Exception excepion){
+
+                int update_reservation_id = Integer.parseInt(select_reservation_id);
+                fld_client_name.setText(ReservationInfo.getFetch(update_reservation_id).getClientName());
+                fld_client_phone.setText(ReservationInfo.getFetch(update_reservation_id).getClientPhone());
+                fld_client_email.setText(ReservationInfo.getFetch(update_reservation_id).getClientEmail());
+                fld_client_note.setText(ReservationInfo.getFetch(update_reservation_id).getClientNote());
+                // room kısmı
+                fld_client_check_in.setText(ReservationInfo.getFetch(update_reservation_id).getCheckIn());
+                fld_client_check_out.setText(ReservationInfo.getFetch(update_reservation_id).getCheckOut());
+
+            } catch(Exception exception){
             }
         });
 
@@ -450,5 +461,8 @@ public class AgencyEmployeeGUI extends JFrame {
         this.fld_check_in.setText("10/02/2024");
         this.fld_check_out = new JFormattedTextField(new MaskFormatter("##/##/####"));
         this.fld_check_out.setText("12/02/2024");
+
+        this.fld_client_check_in = new JFormattedTextField(new MaskFormatter("##/##/####"));
+        this.fld_client_check_out = new JFormattedTextField(new MaskFormatter("##/##/####"));
     }
 }

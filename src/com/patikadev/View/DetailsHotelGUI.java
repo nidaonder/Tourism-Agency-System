@@ -419,15 +419,6 @@ public class DetailsHotelGUI extends JFrame{
         }
     }
 
-   /* public void loadHostelTypeCombo(){
-        Item hostelTypeItem = (Item) cmb_hostel_type.getSelectedItem();
-        cmb_hostel_type.removeAllItems();
-        cmb_hostel_type.addItem(new Item(0, null));
-        for (HostelType obj : HostelType.getListByHotelId(hostelTypeItem.getKey())){
-            cmb_hostel_type.addItem(new Item(obj.getId(), obj.getType()));
-        }
-    }*/
-
     // Season date;
     private void createUIComponents() throws ParseException {
         this.fld_season_start = new JFormattedTextField(new MaskFormatter("##/##/####"));
