@@ -232,18 +232,6 @@ public class DetailsHotelGUI extends JFrame{
             }
         });
 
- /*       for (Room obj : Room.getList()){
-            Object[] row = new Object[col_room_list.length];
-            if (obj.getHotelId() == hotel.getId()){
-                row[0] = obj.getId();
-                row[1] = obj.getHotelId();
-                row[2] = obj.getRoomType();
-                row[3] = obj.getBed();
-                row[4] = obj.getRemainingRooms();
-                mdl_room_list.addRow(row);
-            }
-        }*/
-
         // Add Room;
         btn_room_add.addActionListener(e -> {
             if (Helper.isFieldEmpty(fld_remaining_rooms) || Helper.isFieldEmpty(fld_adult_price) ||

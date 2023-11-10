@@ -164,21 +164,22 @@ public class AgencyEmployeeGUI extends JFrame {
             }
         };
 
-        Object[] col_search_list = {"Hotel Name", "Adress", "Room Type", "Hostel Type", "Season", "Properties",
+        Object[] col_search_list = {"ID", "Hotel Name", "Adress", "Room Type", "Hostel Type", "Season", "Properties",
                 "Bed", "Remaining Rooms", "Adult Price", "Child Price"};
         mdl_search_list.setColumnIdentifiers(col_search_list);
         for (Room room : Room.getList()){
             Object[] row = new Object[col_search_list.length];
-            row[0] = Hotel.getFetch(room.getHotelId()).getName();
-            row[1] = Hotel.getFetch(room.getHotelId()).getAddress();
-            row[2] = room.getRoomType();
-            row[3] = room.getHostelTypeID();
-            row[4] = room.getSeasonId();
-            row[5] = room.getProperties();
-            row[6] = room.getBed();
-            row[7] = room.getRemainingRooms();
-            row[8] = room.getAdultPrice();
-            row[9] = room.getChildPrice();
+            row[0] = room.getId();
+            row[1] = Hotel.getFetch(room.getHotelId()).getName();
+            row[2] = Hotel.getFetch(room.getHotelId()).getAddress();
+            row[3] = room.getRoomType();
+            row[4] = room.getHostelTypeID();
+            row[5] = room.getSeasonId();
+            row[6] = room.getProperties();
+            row[7] = room.getBed();
+            row[8] = room.getRemainingRooms();
+            row[9] = room.getAdultPrice();
+            row[10] = room.getChildPrice();
             mdl_search_list.addRow(row);
         }
         tbl_search_list.setModel(mdl_search_list);
@@ -199,9 +200,6 @@ public class AgencyEmployeeGUI extends JFrame {
             } catch (ParseException ex) {
                 throw new RuntimeException(ex);
             }
-            /*if (Helper.isFieldEmpty(fld_region_city_hotel)){
-                loadSeachModel();
-            }*/
             String query = "SELECT * FROM hotel WHERE name LIKE '%{{name}}%' OR address LIKE '%{{address}}%'";
             query = query.replace("{{name}}", regionHotelName);
             query = query.replace("{{address}}", regionHotelName);
@@ -213,11 +211,9 @@ public class AgencyEmployeeGUI extends JFrame {
                 for (Room room : Room.getList()){
                     if (room.getHotelId() == hotel.getId()){
                         tempRoomList.add(room);
-                        System.out.println("Oda eklendi");
                     }
                 }
             }
-
             ArrayList<Room> searchingRoomList = new ArrayList<>();
             for (Room room : tempRoomList){
                 Season tempSeason = Season.getFetch(room.getHotelId());
@@ -226,7 +222,6 @@ public class AgencyEmployeeGUI extends JFrame {
                     Date seasonEndDate = formatter.parse(tempSeason.getSeasonEnd());
                     if (checkInDate.after(seasonStartDate) && checkOutDate.before(seasonEndDate)){
                         searchingRoomList.add(room);
-
                     }
                 } catch (ParseException ex) {
                     throw new RuntimeException(ex);
@@ -234,79 +229,6 @@ public class AgencyEmployeeGUI extends JFrame {
             }
             loadSearchModel(searchingRoomList);
         });
-
-
-
-        /*
-        for (Room room : Room.getList()){
-            for (HostelType hostelType : HostelType.getHostelType(room.getHotelId())){
-                for (Season season : Season.getList()){
-                    if (hostelType.getHotel_id() == room.getHotelId() && hostelType.getHotel_id() == season.getHotel_id()){
-                        Object[] row = new Object[col_search_list.length];
-                        row[0] = room.getHotel().getName();
-                        row[1] = room.getHotel().getCity();
-                        row[2] = room.getHotel().getRegion();
-                        row[3] = room.getRoomType();
-                        row[4] = hostelType.getType();
-                        row[5] = season.getSeason_start() + " - " + season.getSeason_end();
-                        row[6] = room.getHotel().getHotel_features();
-                        row[7] = room.getBed();
-                        row[8] = room.getRemainingRooms();
-                        row[9] = "100";
-                        mdl_search_list.addRow(row);
-                    }
-                }
-            }
-
-
-
-
-
-        // Search room
-        btn_search.addActionListener(e -> {
-            if (Helper.isFieldEmpty(fld_region_city_hotel)){
-                Helper.showMessage("fill");
-
-            } else {
-                mdl_search_list.setRowCount(0);
-                fld_region_city_hotel.setText(fld_region_city_hotel.getText().toLowerCase());
-
-                for (Room room : Hotel.findBySearch(fld_region_city_hotel.getText(),
-                        Integer.parseInt(cmb_person.getSelectedItem().toString()),
-                        Integer.parseInt(cmb_child.getSelectedItem().toString()),
-                        fld_check_in.getText(),
-                        fld_check_out.getText())){
-                    for (HostelType hostelType : HostelType.getHostelType(room.getHotelId())){
-
-                        for (Season season : Season.getList()){
-                            if (room.getHotelId() == hostelType.getHotel_id() && room.getHotelId() == season.getHotel_id()){
-                                Object[] row = new Object[col_search_list.length];
-                                row[0] = room.getHotel().getName();
-                                row[1] = room.getHotel().getCity();
-                                row[2] = room.getHotel().getRegion();
-                                row[3] = room.getRoomType();
-                                row[4] = hostelType.getType();
-                                row[5] = "season";
-                                row[6] = room.getHotel().getHotel_features();
-                                row[7] = room.getBed();
-                                row[8] = room.getRemainingRooms();
-                                row[9] = "100";
-                                mdl_search_list.addRow(row);
-                                tbl_search_list.setModel(mdl_search_list);
-                                tbl_search_list.getTableHeader().setReorderingAllowed(false);
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-
-
-
-        */
-
-
 
         // Add Hotel button;
         btn_add_hotel.addActionListener(e -> {
@@ -351,6 +273,8 @@ public class AgencyEmployeeGUI extends JFrame {
         // ReservationButton;
         reservastionButton.addActionListener(e -> {
             ReservationGUI reservation = new ReservationGUI();
+
+
         });
     }
 
@@ -390,20 +314,21 @@ public class AgencyEmployeeGUI extends JFrame {
     private void loadSearchModel(ArrayList<Room> rooms){
         DefaultTableModel clearModel = (DefaultTableModel) tbl_search_list.getModel();
         clearModel.setRowCount(0);
-        Object[] col_search_list = {"Hotel Name", "Adress", "Room Type", "Hostel Type", "Season", "Properties",
+        Object[] col_search_list = {"ID", "Hotel Name", "Adress", "Room Type", "Hostel Type", "Season", "Properties",
                 "Bed", "Remaining Rooms", "Adult Price", "Child Price"};
         for (Room room : rooms){
             Object[] row = new Object[col_search_list.length];
-            row[0] = Hotel.getFetch(room.getHotelId()).getName();
-            row[1] = Hotel.getFetch(room.getHotelId()).getAddress();
-            row[2] = room.getRoomType();
-            row[3] = room.getHostelTypeID();
-            row[4] = room.getSeasonId();
-            row[5] = room.getProperties();
-            row[6] = room.getBed();
-            row[7] = room.getRemainingRooms();
-            row[8] = room.getAdultPrice();
-            row[9] = room.getChildPrice();
+            row[0] = room.getId();
+            row[1] = Hotel.getFetch(room.getHotelId()).getName();
+            row[2] = Hotel.getFetch(room.getHotelId()).getAddress();
+            row[3] = room.getRoomType();
+            row[4] = room.getHostelTypeID();
+            row[5] = room.getSeasonId();
+            row[6] = room.getProperties();
+            row[7] = room.getBed();
+            row[8] = room.getRemainingRooms();
+            row[9] = room.getAdultPrice();
+            row[10] = room.getChildPrice();
             mdl_search_list.addRow(row);
         }
         tbl_search_list.setModel(mdl_search_list);
