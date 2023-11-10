@@ -2,6 +2,7 @@ package com.patikadev.View;
 
 import com.patikadev.Helper.Config;
 import com.patikadev.Helper.Helper;
+import com.patikadev.Helper.Item;
 import com.patikadev.Model.*;
 
 import javax.swing.*;
@@ -294,7 +295,7 @@ public class AgencyEmployeeGUI extends JFrame {
                 fld_client_phone.setText(ReservationInfo.getFetch(update_reservation_id).getClientPhone());
                 fld_client_email.setText(ReservationInfo.getFetch(update_reservation_id).getClientEmail());
                 fld_client_note.setText(ReservationInfo.getFetch(update_reservation_id).getClientNote());
-                // room kısmı
+                loadRoomsCombo();
                 fld_client_check_in.setText(ReservationInfo.getFetch(update_reservation_id).getCheckIn());
                 fld_client_check_out.setText(ReservationInfo.getFetch(update_reservation_id).getCheckOut());
 
@@ -454,6 +455,26 @@ public class AgencyEmployeeGUI extends JFrame {
         }
         tbl_reservation_list.setModel(mdl_reservation_list);
         tbl_reservation_list.getTableHeader().setReorderingAllowed(false);
+    }
+
+    public void loadRoomsCombo(){
+        cmb_client_room.removeAllItems();
+        int selectReservationId = Integer.parseInt(tbl_reservation_list.getValueAt(tbl_reservation_list.getSelectedRow(), 0).toString());
+        int selectHotelId = Room.getFetch(ReservationInfo.getFetch(selectReservationId).getRoomId()).getHotelId();
+
+        for (Room obj : Room.getList()){
+            if (obj.getHotelId() == selectHotelId){
+                String selectableRooms = obj.getRoomType() + " - " + HostelType.getFetch(obj.getHostelTypeID()).getType();
+                cmb_client_room.addItem(new Item(obj.getHotelId(), selectableRooms));
+            }
+        }
+        if (cmb_client_room.getSelectedItem() != null){
+            Item roomsItem = (Item) cmb_client_room.getSelectedItem();
+            for (Room rooms : Room.getListByHotelId(roomsItem.getKey())){
+                String selectableRooms = rooms.getRoomType() + " - " + HostelType.getFetch(rooms.getHostelTypeID()).getType();
+                cmb_client_room.addItem(new Item(rooms.getHotelId(), selectableRooms));
+            }
+        }
     }
 
     private void createUIComponents() throws ParseException {

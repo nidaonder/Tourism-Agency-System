@@ -107,4 +107,20 @@ public class HostelType {
         return hostelTypeList;
     }
 
+    public static HostelType getFetch(int id){
+        HostelType obj = null;
+        String query = "SELECT * FROM hostel_type WHERE id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, id);
+            ResultSet rs = pr.executeQuery();
+            if (rs.next()){
+                obj = new HostelType(rs.getInt("id"), rs.getInt("hotel_id"), rs.getString("type"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return obj;
+    }
+
 }

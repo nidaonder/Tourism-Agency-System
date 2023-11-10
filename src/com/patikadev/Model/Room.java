@@ -155,6 +155,34 @@ public class Room {
         return roomList;
     }
 
+    public static ArrayList<Room> getListByHotelId(int id){
+        ArrayList<Room> roomListByHotelId = new ArrayList<>();
+        Room obj;
+        String query = "SELECT * FROM room WHERE id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, id);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                obj = new Room();
+                obj.setId(rs.getInt("id"));
+                obj.setHotelId(rs.getInt("hotel_id"));
+                obj.setSeasonId(rs.getInt("season_id"));
+                obj.setBed(rs.getInt("bed"));
+                obj.setRoomType(rs.getString("room_type"));
+                obj.setHostelTypeID(rs.getInt("hostel_type_id"));
+                obj.setRemainingRooms(rs.getInt("remaining_rooms"));
+                obj.setAdultPrice(rs.getInt("adult_price"));
+                obj.setChildPrice(rs.getInt("child_price"));
+                obj.setProperties(rs.getString("properties"));
+                roomListByHotelId.add(obj);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return roomListByHotelId;
+    }
+
     public static boolean addRoom(int hotelId, int seasonId, int bed, String roomType, int hostelTypeID, int remainingRooms,
                                   int adultPrice, int childPrice, String properties){
         String query = "INSERT INTO room (hotel_id, season_id, bed, room_type, hostel_type_id, remaining_rooms, adult_price," +

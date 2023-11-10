@@ -138,28 +138,4 @@ public class Season {
         return seasonList;
     }
 
-
-   /*
-    public static boolean isDateWithinRange(String check_in, String check_out, int hotel_id){
-
-        //check_in = LocalDate.parse(check_in, DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString();
-        //check_out = LocalDate.parse(check_out, DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        LocalDate checkInDate = LocalDate.parse(check_in, formatter);
-        LocalDate checkOutDate = LocalDate.parse(check_out, formatter);
-
-        LocalDate startDate = getFetch(hotel_id).getSeason_start();
-        LocalDate endDate = getFetch(hotel_id).getSeason_end();
-
-        if (checkInDate.isAfter(startDate) && checkOutDate.isBefore(endDate)){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    */
-
 }
