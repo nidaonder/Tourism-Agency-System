@@ -116,7 +116,6 @@ public class ReservationGUI extends JFrame{
         }
         long diffInMillies = Math.abs(checkOutDate.getTime() - checkInDate.getTime());
         long daysBetween = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-        System.out.println("Gün sayısı = " + daysBetween);
 
         long totalPrice = daysBetween * oneNightPrice;
         fld_total_price.setText(String.valueOf(totalPrice));
