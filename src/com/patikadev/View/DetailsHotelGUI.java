@@ -395,13 +395,6 @@ public class DetailsHotelGUI extends JFrame{
                 cmb_season_id.addItem(new Item(obj.getId(), seasonLabel));
             }
         }
-        if (cmb_season_id.getSelectedItem() != null){
-            Item seasonItem = (Item) cmb_season_id.getSelectedItem();
-            for (Season season : Season.getListByHotelId(seasonItem.getKey())){
-                String seasonLabel = season.getSeasonStart() + " - " + season.getSeasonEnd();
-                cmb_season_id.addItem(new Item(season.getId(), seasonLabel));
-            }
-        }
     }
 
     public void loadHostelTypeCombo(){
@@ -409,12 +402,6 @@ public class DetailsHotelGUI extends JFrame{
         for (HostelType obj : HostelType.getHostelType()){
             if (obj.getHotel_id() == hotel.getId()){
                 cmb_hostel_type.addItem(new Item(obj.getId(), obj.getType()));
-            }
-        }
-        if (cmb_hostel_type.getSelectedItem() != null){
-            Item hostelTypeItem = (Item) cmb_hostel_type.getSelectedItem();
-            for (HostelType hostelType : HostelType.getListByHotelId(hostelTypeItem.getKey())){
-                cmb_hostel_type.addItem(new Item(hostelType.getId(), hostelType.getType()));
             }
         }
     }
