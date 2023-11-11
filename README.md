@@ -15,3 +15,5 @@ sahiptir.
 #Programlama dili Java,
 #Önyüz java swing,
 #Database mySql ile yapılmıştır.
+
+Video link : https://www.loom.com/share/ad12febd7563430d9637e8ef7af1abc5?sid=8b0bd32b-e081-4aa3-8b5f-20ed44ade1c0
