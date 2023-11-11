@@ -3,10 +3,7 @@ package com.patikadev.View;
 import com.patikadev.Helper.Config;
 import com.patikadev.Helper.Helper;
 import com.patikadev.Helper.Item;
-import com.patikadev.Model.HostelType;
-import com.patikadev.Model.Hotel;
-import com.patikadev.Model.Room;
-import com.patikadev.Model.Season;
+import com.patikadev.Model.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -272,11 +269,11 @@ public class DetailsHotelGUI extends JFrame{
                 Helper.showMessage("fill");
             } else {
                 int room_id = Integer.parseInt(fld_room_id.getText());
-                    if (Room.deleteRoom(room_id)){
+                    if (!ReservationInfo.isReservationExist(room_id) && Room.deleteRoom(room_id)){
                         Helper.showMessage("done");
                         loadRoomModel();
                     } else {
-                        Helper.showMessage("error");
+                        Helper.showMessage("ERROR! There might be reservation on this room. Please check reservation list!");
                     }
                 }
         });

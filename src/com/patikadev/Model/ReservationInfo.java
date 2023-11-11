@@ -236,4 +236,13 @@ public class ReservationInfo {
             throw new RuntimeException(e);
         }
     }
+    public static boolean isReservationExist(int roomId){
+        ArrayList<ReservationInfo> reservations = ReservationInfo.getList();
+        for (ReservationInfo reservation : reservations){
+            if (reservation.getRoomId() == roomId){
+                return true;
+            }
+        }
+        return false;
+    }
 }
