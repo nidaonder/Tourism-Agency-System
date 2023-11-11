@@ -208,6 +208,12 @@ public class AgencyEmployeeGUI extends JFrame {
         tbl_search_list.setModel(mdl_search_list);
         tbl_search_list.getTableHeader().setReorderingAllowed(false);
 
+        tbl_search_list.getColumnModel().getColumn(0).setMaxWidth(30);
+        tbl_search_list.getColumnModel().getColumn(1).setMinWidth(100);
+        tbl_search_list.getColumnModel().getColumn(2).setMinWidth(150);
+        tbl_search_list.getColumnModel().getColumn(3).setMaxWidth(60);
+        tbl_search_list.getColumnModel().getColumn(7).setMaxWidth(50);
+
         // Button Search
         // Değerlendirme 13 : Oda arama
         btn_search.addActionListener(e -> {
@@ -470,6 +476,7 @@ public class AgencyEmployeeGUI extends JFrame {
             row_hotel_list[i++] = obj.getHotel_features();
             mdl_hotel_list.addRow(row_hotel_list);
         }
+
     }
 
     public void loadSearchModel(ArrayList<Room> rooms){
@@ -494,6 +501,12 @@ public class AgencyEmployeeGUI extends JFrame {
         }
         tbl_search_list.setModel(mdl_search_list);
         tbl_search_list.getTableHeader().setReorderingAllowed(false);
+
+        tbl_search_list.getColumnModel().getColumn(0).setMaxWidth(30);
+        tbl_search_list.getColumnModel().getColumn(1).setMinWidth(100);
+        tbl_search_list.getColumnModel().getColumn(2).setMinWidth(150);
+        tbl_search_list.getColumnModel().getColumn(3).setMaxWidth(60);
+        tbl_search_list.getColumnModel().getColumn(7).setMaxWidth(50);
     }
 
     public void loadReservationModel(){
