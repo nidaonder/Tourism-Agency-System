@@ -202,6 +202,30 @@ public class ReservationInfo {
         }
     }
 
+    public static boolean updateReservation(int id, String clientName, String clientPhone, String clientEmail,
+                                            String clientNote, int roomId, String checkIn, String checkOut,
+                                            int adultNum, int childNum, long totalPrice){
+        String query = "UPDATE reservation_info SET client_name = ?, client_phone = ?, client_email = ?, " +
+                "client_note = ?, room_id = ?, check_in = ?, check_out = ?, adult_num = ?, child_num = ?, total_price = ? WHERE id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setString(1, clientName);
+            pr.setString(2, clientPhone);
+            pr.setString(3, clientEmail);
+            pr.setString(4, clientNote);
+            pr.setInt(5, roomId);
+            pr.setString(6, checkIn);
+            pr.setString(7, checkOut);
+            pr.setInt(8, adultNum);
+            pr.setInt(9, childNum);
+            pr.setLong(10, totalPrice);
+            pr.setInt(11, id);
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static boolean deleteReservation(int id){
         String query = "DELETE FROM reservation_info WHERE id = ?";
         try {

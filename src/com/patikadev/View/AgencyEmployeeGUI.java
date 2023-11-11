@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class AgencyEmployeeGUI extends JFrame {
     private JPanel wrapper;
@@ -280,10 +281,6 @@ public class AgencyEmployeeGUI extends JFrame {
         tbl_reservation_list.setModel(mdl_reservation_list);
         tbl_reservation_list.getTableHeader().setReorderingAllowed(false);
 
-
-
-
-
         // Select Reservation ID;
         tbl_reservation_list.getSelectionModel().addListSelectionListener(e -> {
             try {
@@ -372,6 +369,60 @@ public class AgencyEmployeeGUI extends JFrame {
                 }
             }
             fld_reservation_id.setText(null);
+        });
+
+        // Update Reservation;
+        btn_reservation_update.addActionListener(e -> {
+            if (Helper.isFieldEmpty(fld_client_name) || Helper.isFieldEmpty(fld_client_phone) ||
+                    Helper.isFieldEmpty(fld_client_email) || Helper.isFieldEmpty(fld_client_note) ||
+                    Helper.isFieldEmpty(fld_client_check_in) || Helper.isFieldEmpty(fld_client_check_out)){
+                Helper.showMessage("fill");
+            } else {
+                int id = Integer.parseInt(fld_reservation_id.getText().toString());
+                String clientName = fld_client_name.getText();
+                String clientPhone = fld_client_phone.getText();
+                String clientEmail = fld_client_email.getText();
+                String clientNote = fld_client_note.getText();
+                Item roomIdItem = (Item) cmb_client_room.getSelectedItem();
+                int roomId = roomIdItem.getKey();
+                String clientCheckIn = fld_client_check_in.getText();
+                String clientCheckOut = fld_client_check_out.getText();
+                int adultNum = Integer.parseInt(cmb_client_adult.getSelectedItem().toString());
+                int childNum = Integer.parseInt(cmb_client_child.getSelectedItem().toString());
+                int dailyPrice = (adultNum * Room.getFetch(roomId).getAdultPrice()) + (childNum * Room.getFetch(roomId).getChildPrice());
+
+                Date checkInDate = null;
+                Date checkOutDate = null;
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                try {
+                    checkInDate = formatter.parse(clientCheckIn);
+                    checkOutDate = formatter.parse(clientCheckOut);
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
+                long diffInMillies = Math.abs(checkOutDate.getTime() - checkInDate.getTime());
+                long daysBetween = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+                long totalPrice = dailyPrice * daysBetween;
+
+                Season selectableSeason = Season.getFetch(Room.getFetch(roomId).getHotelId());
+
+                try {
+                    Date seasonStartDate = formatter.parse(selectableSeason.getSeasonStart());
+                    Date seasonEndDate = formatter.parse(selectableSeason.getSeasonEnd());
+                    if (checkInDate.before(seasonStartDate) || checkOutDate.after(seasonEndDate)){
+                        Helper.showMessage("Please enter a valid date!");
+                    }
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
+                if (ReservationInfo.updateReservation(id, clientName, clientPhone, clientEmail, clientNote, roomId,
+                        clientCheckIn,clientCheckOut,adultNum,childNum,totalPrice)){
+                    Helper.showMessage("done");
+                } else {
+                    Helper.showMessage("error");
+                }
+                loadReservationModel();
+            }
         });
     }
 
@@ -465,14 +516,14 @@ public class AgencyEmployeeGUI extends JFrame {
         for (Room obj : Room.getList()){
             if (obj.getHotelId() == selectHotelId){
                 String selectableRooms = obj.getRoomType() + " - " + HostelType.getFetch(obj.getHostelTypeID()).getType();
-                cmb_client_room.addItem(new Item(obj.getHotelId(), selectableRooms));
+                cmb_client_room.addItem(new Item(obj.getId(), selectableRooms));
             }
         }
         if (cmb_client_room.getSelectedItem() != null){
             Item roomsItem = (Item) cmb_client_room.getSelectedItem();
             for (Room rooms : Room.getListByHotelId(roomsItem.getKey())){
                 String selectableRooms = rooms.getRoomType() + " - " + HostelType.getFetch(rooms.getHostelTypeID()).getType();
-                cmb_client_room.addItem(new Item(rooms.getHotelId(), selectableRooms));
+                cmb_client_room.addItem(new Item(rooms.getId(), selectableRooms));
             }
         }
     }
