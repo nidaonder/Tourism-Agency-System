@@ -117,10 +117,11 @@ public class ReservationGUI extends JFrame{
         long diffInMillies = Math.abs(checkOutDate.getTime() - checkInDate.getTime());
         long daysBetween = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 
-        long totalPrice = daysBetween * oneNightPrice;
+        long totalPrice = daysBetween * oneNightPrice;  // Değerlendime 15 : Total fiyat hesaplanıyor
         fld_total_price.setText(String.valueOf(totalPrice));
 
         // Create Reservation
+        // Değerlendirme 16 : Rezervasyon yapılıyor
         createReservationButton.addActionListener(e -> {
             if (Helper.isFieldEmpty(fld_client_name) || Helper.isFieldEmpty(fld_client_phone) ||
                     Helper.isFieldEmpty(fld_client_mail) || Helper.isFieldEmpty(fld_reservation_note)){

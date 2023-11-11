@@ -205,6 +205,7 @@ public class AgencyEmployeeGUI extends JFrame {
         tbl_search_list.getTableHeader().setReorderingAllowed(false);
 
         // Button Search
+        // Değerlendirme 13 : Oda arama
         btn_search.addActionListener(e -> {
             String regionHotelName = fld_region_city_hotel.getText();
             checkIn = fld_check_in.getText().trim();
@@ -246,10 +247,11 @@ public class AgencyEmployeeGUI extends JFrame {
                     throw new RuntimeException(ex);
                 }
             }
-            loadSearchModel(searchingRoomList);
+            loadSearchModel(searchingRoomList); // Değerlendirme 14 : Uygun odalar listelenip kullanıcıya gösteriliyor
         });
 
         // ReservationList Table;
+        // Değerlendirme 18 : Rezervasyonlar listeleniyor
         mdl_reservation_list = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -303,6 +305,7 @@ public class AgencyEmployeeGUI extends JFrame {
 
 
         // Add Hotel button;
+        // Değerlendirme 9 : Otel ekleme
         btn_add_hotel.addActionListener(e -> {
             if (Helper.isFieldEmpty(fld_hotel_name) || Helper.isFieldEmpty(fld_hotel_city) || Helper.isFieldEmpty(fld_hotel_region) ||
                     Helper.isFieldEmpty(fld_hotel_address) || Helper.isFieldEmpty(fld_hotel_email) ||
@@ -356,6 +359,7 @@ public class AgencyEmployeeGUI extends JFrame {
         });
 
         // Delete Reservation
+        // Değerlendirme 18 : Rezervasyon silinebiliyor
         btn_reservation_delete.addActionListener(e -> {
             if (Helper.isFieldEmpty(fld_reservation_id)){
                 Helper.showMessage("fill");

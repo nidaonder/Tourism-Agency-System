@@ -233,6 +233,7 @@ public class DetailsHotelGUI extends JFrame{
         });
 
         // Add Room;
+        // Değerlendirme 11 : Otele oda ekleme
         btn_room_add.addActionListener(e -> {
             if (Helper.isFieldEmpty(fld_remaining_rooms) || Helper.isFieldEmpty(fld_adult_price) ||
                     Helper.isFieldEmpty(fld_child_price)){
@@ -281,6 +282,7 @@ public class DetailsHotelGUI extends JFrame{
         });
 
         // Add Hostel-Type;
+        // Otele pansiyon tipi ekleme
         btn_hostel_add.addActionListener(e -> {
 
             if (!onlyBedRadioButton.isSelected() && !BBRadioButton.isSelected() && !halfPensionRadioButton.isSelected() &&
@@ -326,6 +328,7 @@ public class DetailsHotelGUI extends JFrame{
         });
 
         // Add season
+        // Değerlendirme 10 : Otele dönem ekleme
         btn_season_add.addActionListener(e -> {
             if (Helper.isFieldEmpty(fld_season_start) || Helper.isFieldEmpty(fld_season_end)){
                 Helper.showMessage("fill");
