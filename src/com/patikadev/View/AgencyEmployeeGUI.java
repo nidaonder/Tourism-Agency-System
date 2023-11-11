@@ -293,6 +293,10 @@ public class AgencyEmployeeGUI extends JFrame {
         tbl_reservation_list.setModel(mdl_reservation_list);
         tbl_reservation_list.getTableHeader().setReorderingAllowed(false);
 
+        tbl_reservation_list.getColumnModel().getColumn(0).setMaxWidth(40);
+        tbl_reservation_list.getColumnModel().getColumn(1).setMinWidth(100);
+
+
         // Select Reservation ID;
         tbl_reservation_list.getSelectionModel().addListSelectionListener(e -> {
             try {
@@ -368,7 +372,16 @@ public class AgencyEmployeeGUI extends JFrame {
             reservation.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
+                    Room tempRoom = Room.getFetch(select_room_id);
+                    ArrayList<Room> tempRooms = Room.getList();
+                    ArrayList<Room> reservationRooms = new ArrayList<>();
+                    for(Room room : tempRooms){
+                        if(room.getHotelId() == tempRoom.getHotelId()){
+                            reservationRooms.add(room);
+                        }
+                    }
                     loadReservationModel();
+                    loadSearchModel(reservationRooms);
                 }
             });
         });
