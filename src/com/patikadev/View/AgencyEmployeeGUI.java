@@ -163,6 +163,9 @@ public class AgencyEmployeeGUI extends JFrame {
         tbl_hotel_list.setComponentPopupMenu(hotelMenu); // Update - Delete - Details
 
         tbl_hotel_list.getTableHeader().setReorderingAllowed(false);
+        tbl_hotel_list.getColumnModel().getColumn(0).setMaxWidth(30);
+        tbl_hotel_list.getColumnModel().getColumn(7).setMaxWidth(60);
+        tbl_hotel_list.getColumnModel().getColumn(1).setMinWidth(150);
 
         tbl_hotel_list.addMouseListener(new MouseAdapter() {
             @Override
