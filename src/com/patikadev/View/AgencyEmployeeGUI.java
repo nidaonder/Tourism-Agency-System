@@ -124,6 +124,7 @@ public class AgencyEmployeeGUI extends JFrame {
             detailsGUI.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
+                    loadSearchModel(Room.getList());
                     super.windowClosed(e);
                 }
             });
@@ -229,7 +230,7 @@ public class AgencyEmployeeGUI extends JFrame {
 
             for (Hotel hotel : searchingHotel){
                 for (Room room : Room.getList()){
-                    if (room.getHotelId() == hotel.getId()){
+                    if (room.getHotelId() == hotel.getId() && room.getRemainingRooms() > 0){ // Oda stok kontrolü yapılıyor
                         tempRoomList.add(room);
                     }
                 }
@@ -355,7 +356,12 @@ public class AgencyEmployeeGUI extends JFrame {
             String checkOut = fld_check_out.getText();
 
             ReservationGUI reservation = new ReservationGUI(Room.getFetch(select_room_id), adultNum, childNum, checkIn, checkOut);
-            loadReservationModel();
+            reservation.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    loadReservationModel();
+                }
+            });
         });
 
         // Delete Reservation

@@ -139,7 +139,7 @@ public class ReservationGUI extends JFrame{
                 long clientTotalPrice = totalPrice;
 
                 if (ReservationInfo.addReservation(clientName, clientPhone, clientEmail, clientNote, clientRoomId,
-                        clientCheckIn, clientCheckOut, clientAdult, clientChildNum, totalPrice)){
+                        clientCheckIn, clientCheckOut, clientAdult, clientChildNum, totalPrice) && Room.reduceRemainingRooms(clientRoomId)){
                     Helper.showMessage("done");
                 }
                 dispose();

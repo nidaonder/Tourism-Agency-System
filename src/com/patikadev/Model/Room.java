@@ -236,6 +236,21 @@ public class Room {
         }
     }
 
+    // Değerlendirme 17 : Rezervasyon işleminden sonra stok miktarı 1 azaltılıyor
+    public static boolean reduceRemainingRooms(int id){
+        int remainingRooms = getFetch(id).getRemainingRooms();
+        String query = "UPDATE room SET remaining_rooms = ? WHERE id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, remainingRooms - 1);
+            pr.setInt(2, id);
+            return  pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public static Room getFetch(int id){
         Room obj = null;
         String query = "SELECT * FROM room WHERE id = ?";
